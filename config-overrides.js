@@ -14,6 +14,5 @@ module.exports = function override(config, env) {
   newConfig = injectBabelPlugin('transform-object-rest-spread', config);
   newConfig = rewireEslint(config, env, overrideEslintOptions);
 
-  console.log('hello!');
   return newConfig;
 };
