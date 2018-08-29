@@ -8,11 +8,11 @@ function overrideEslintOptions(options) {
 
 /* config-overrides.js */
 module.exports = function override(config, env) {
-  let newConfig;
+  let newConfig = config;
 
-  newConfig = injectBabelPlugin('transform-class-properties', config);
-  newConfig = injectBabelPlugin('transform-object-rest-spread', config);
-  newConfig = rewireEslint(config, env, overrideEslintOptions);
+  newConfig = injectBabelPlugin('transform-class-properties', newConfig);
+  newConfig = injectBabelPlugin('transform-object-rest-spread', newConfig);
+  newConfig = rewireEslint(newConfig, env, overrideEslintOptions);
 
   return newConfig;
 };
