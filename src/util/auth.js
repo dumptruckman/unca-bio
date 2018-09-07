@@ -8,21 +8,21 @@ export function loginWithGoogle() {
 function authenticate(promise) {
   return promise
     .then(function(result) {
-      // login with your app with result object to get accessToken (token)
-      // localStorage.save(token);
-      const token = result.credential.accessToken;
+      // // login with your app with result object to get accessToken (token)
+      // // localStorage.save(token);
+      // const token = result.credential.accessToken;
       const user = result.user;
       console.log('login happened with firebase, ', JSON.stringify(user));
       localStorage.setItem('firebaseUser', JSON.stringify(result));
       return Promise.resolve(result);
     })
     .catch(function(error) {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      // The email of the user's account used.
-      const email = error.email;
-      // The firebase.auth.AuthCredential type that was used.
-      const credential = error.credential;
+      // const errorCode = error.code;
+      // const errorMessage = error.message;
+      // // The email of the user's account used.
+      // const email = error.email;
+      // // The firebase.auth.AuthCredential type that was used.
+      // const credential = error.credential;
       alert('failed firebase login' + error);
       return Promise.reject('err');
     });
