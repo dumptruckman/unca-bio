@@ -1,6 +1,6 @@
 import React from 'react';
-import { Avatar, RaisedButton } from 'material-ui';
 import { logout } from '../util/auth';
+import Button from '@material-ui/core/Button';
 
 const appTokenKey = 'appToken'; // also duplicated in Login.js
 export default class Home extends React.Component {
@@ -30,15 +30,11 @@ export default class Home extends React.Component {
       <div>
         <h1>Home</h1>
         <h3>Welcome</h3>
-        {this.state.firebaseUser && <Avatar src={this.state.firebaseUser.photoURL} />}
 
         <div>
-          <RaisedButton
-            backgroundColor="#a4c639"
-            labelColor="#ffffff"
-            label="Sign Out"
-            onClick={this.handleLogout}
-          />
+          <Button variant="contained" color="secondary" onClick={this.handleLogout}>
+            Sign out
+          </Button>
         </div>
       </div>
     );
