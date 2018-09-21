@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { db } from './config/constants';
+import SpecimenList from './features/SpecimenList';
 
 class App extends Component {
   state = {
@@ -85,6 +86,7 @@ class App extends Component {
               </li>
             ))}
         </ul>
+        <SpecimenList />
       </div>
     );
   }
