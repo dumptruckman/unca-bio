@@ -28,7 +28,7 @@ export default () => (
               accessor: 'catalogNumber',
             },
             {
-              Header: 'Identification',
+              Header: 'Taxonomy',
               accessor: 'scientificName',
               Cell: ({ value }) => <i>{value}</i>,
             },
@@ -40,6 +40,22 @@ export default () => (
               Header: 'Sex',
               accessor: 'sex',
             },
+            {
+              Header: 'Locality',
+              accessor: 'locality',
+            },
+            {
+              Header: 'Collection Date',
+              accessor: 'collectionDate',
+            },
+            {
+              Header: 'Voucher Type',
+              accessor: 'voucherType',
+            },
+            // {
+            //   Header: 'Parts',
+            //   accessor: 'parts',
+            // },
           ]}
         />
       );
