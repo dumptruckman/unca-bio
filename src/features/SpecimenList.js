@@ -41,7 +41,7 @@ export default () => (
             },
             {
               Header: 'Sex',
-              accessor: 'sex',
+              accessor: 'attributes.sex',
               maxWidth: 100,
             },
             {

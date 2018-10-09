@@ -7,6 +7,7 @@ import DetailColumn from './detail/layout/DetailColumn';
 import DetailItem from './detail/layout/DetailItem';
 import Placeholder from './detail/Placeholder';
 import Collectors from './detail/Collectors';
+import Attributes from './detail/Attributes';
 
 const SpecimenDetail = props => {
   const createDetails = data => (
@@ -32,6 +33,11 @@ const SpecimenDetail = props => {
         <DetailItem title="Extra Details">
           <Placeholder data={data} />
         </DetailItem>
+        {data.attributes && (
+          <DetailItem title="Attributes">
+            <Attributes data={data} />
+          </DetailItem>
+        )}
         <DetailItem>
           <Placeholder data={data} />
         </DetailItem>
