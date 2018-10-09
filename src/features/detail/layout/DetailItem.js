@@ -1,5 +1,4 @@
 import React from 'react';
-import Card from '@material-ui/core/Card';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
@@ -27,7 +26,7 @@ const DetailItem = ({ classes, title, children }) => (
         <Typography className={classes.title} variant="caption">
           {title}
         </Typography>
-        <Card>{children}</Card>
+        <Paper elevation={0}>{children}</Paper>
       </Paper>
     ) : (
       <Paper className={classes.simplePaper}>{children}</Paper>

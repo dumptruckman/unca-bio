@@ -1,6 +1,5 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 
@@ -16,7 +15,7 @@ const Locality = ({ classes, data: { locality } }) => {
   const toDate = locality.collectingDateTo && locality.collectingDateTo.toDate();
 
   return (
-    <Card>
+    <div>
       <Grid container>
         <Grid item>
           <div>
@@ -70,7 +69,7 @@ const Locality = ({ classes, data: { locality } }) => {
           </div>
         </Grid>
       </Grid>
-    </Card>
+    </div>
   );
 };
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
+import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 
 const styles = theme => ({
@@ -10,7 +11,7 @@ const styles = theme => ({
 });
 
 const Identification = ({ classes, data: { identification } }) => (
-  <Card>
+  <div>
     <div>
       <Typography variant="title">
         <i>
@@ -34,7 +35,7 @@ const Identification = ({ classes, data: { identification } }) => (
         {identification.identifiedDate}
       </Typography>
     </div>
-  </Card>
+  </div>
 );
 
 export default withStyles(styles)(Identification);
