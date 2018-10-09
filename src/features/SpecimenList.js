@@ -28,6 +28,7 @@ export default () => (
             {
               Header: 'Catalog Number',
               accessor: 'catalogNumber',
+              maxWidth: 150,
             },
             {
               Header: 'Taxonomy',
@@ -41,6 +42,7 @@ export default () => (
             {
               Header: 'Sex',
               accessor: 'sex',
+              maxWidth: 100,
             },
             {
               Header: 'Locality',
@@ -49,10 +51,12 @@ export default () => (
             {
               Header: 'Collection Date',
               accessor: 'collectionDate',
+              maxWidth: 200,
             },
             {
               Header: 'Voucher Type',
               accessor: 'voucherType',
+              maxWidth: 200,
             },
             // {
             //   Header: 'Parts',
