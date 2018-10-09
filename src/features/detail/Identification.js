@@ -21,7 +21,9 @@ const Identification = ({ classes, data }) => (
       </Typography>
     </div>
     <div>
-      <Typography color="textSecondary">{data.fullTaxonomy}</Typography>
+      <Typography color="textSecondary">
+        {data.fullTaxonomy} {data.subSpecies && data.subSpecies}
+      </Typography>
     </div>
     <div className={classes.commonName}>
       <Typography color="textSecondary">{data.commonName}</Typography>
