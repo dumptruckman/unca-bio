@@ -11,9 +11,11 @@ const SpecimenDetail = props => {
   const createDetails = data => (
     <DetailGrid>
       <DetailColumn>
-        <DetailItem title="Identification">
-          <Identification data={data} />
-        </DetailItem>
+        {data.identification && (
+          <DetailItem title="Identification">
+            <Identification data={data} />
+          </DetailItem>
+        )}
         {data.locality && (
           <DetailItem title="Locality and Collection Details">
             <Locality data={data} />

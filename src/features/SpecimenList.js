@@ -32,12 +32,12 @@ export default () => (
             },
             {
               Header: 'Taxonomy',
-              accessor: 'scientificName',
+              accessor: 'identification.scientificName',
               Cell: ({ value }) => <i>{value}</i>,
             },
             {
               Header: 'Common Name',
-              accessor: 'commonName',
+              accessor: 'identification.commonName',
             },
             {
               Header: 'Sex',

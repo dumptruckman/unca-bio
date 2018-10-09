@@ -9,28 +9,29 @@ const styles = theme => ({
   },
 });
 
-const Identification = ({ classes, data }) => (
+const Identification = ({ classes, data: { identification } }) => (
   <Card>
     <div>
       <Typography variant="title">
         <i>
-          {data.scientificName}
-          {data.author && data.author}
-          {data.authorDate && data.authorDate}
+          {identification.scientificName}
+          {identification.author && identification.author}
+          {identification.authorDate && identification.authorDate}
         </i>
       </Typography>
     </div>
     <div>
       <Typography color="textSecondary">
-        {data.fullTaxonomy} {data.subSpecies && data.subSpecies}
+        {identification.fullTaxonomy} {identification.subSpecies && identification.subSpecies}
       </Typography>
     </div>
     <div className={classes.commonName}>
-      <Typography color="textSecondary">{data.commonName}</Typography>
+      <Typography color="textSecondary">{identification.commonName}</Typography>
     </div>
     <div>
       <Typography component="p">
-        Identified by {data.identifiedBy ? data.identifiedBy : 'Catalog'} {data.identifiedDate}
+        Identified by {identification.identifiedBy ? identification.identifiedBy : 'Catalog'}{' '}
+        {identification.identifiedDate}
       </Typography>
     </div>
   </Card>
