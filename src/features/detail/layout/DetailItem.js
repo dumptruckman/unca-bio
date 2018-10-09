@@ -6,6 +6,10 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 
 const styles = theme => ({
+  title: {
+    marginLeft: '-5px',
+    paddingBottom: '5px',
+  },
   simplePaper: {
     textAlign: 'left',
   },
@@ -20,7 +24,9 @@ const DetailItem = ({ classes, title, children }) => (
   <Grid item>
     {title ? (
       <Paper className={classes.paper}>
-        <Typography variant="caption">{title}</Typography>
+        <Typography className={classes.title} variant="caption">
+          {title}
+        </Typography>
         <Card>{children}</Card>
       </Paper>
     ) : (
