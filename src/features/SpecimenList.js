@@ -46,7 +46,7 @@ export default () => (
             },
             {
               Header: 'Locality',
-              accessor: 'locality',
+              accessor: 'locality.specificLocality',
             },
             {
               Header: 'Collection Date',
