@@ -10,6 +10,7 @@ import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import Login from './features/Login';
 import Home from './features/Home';
+import SpecimenDetail from './features/SpecimenDetail';
 import './config/constants';
 import 'firebase/firestore';
 
@@ -21,8 +22,8 @@ const Root = () => (
       <div>
         <Route path="/login" component={Login} />
         <Route path="/app/home" component={Home} />
-        <Route path="/" component={App} />
-        {/*<Redirect from="/" to="/login" />*/}
+        <Route path="/specimen/:id" component={SpecimenDetail} />
+        <Route exact path="/" component={App} />
       </div>
     </Router>
   </FirestoreProvider>

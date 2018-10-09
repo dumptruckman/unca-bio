@@ -43,49 +43,9 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">{this.state.name}</h1>
+          <h1 className="App-title">UNCA Zoology Catalog</h1>
         </header>
         <div />
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-        <form onSubmit={e => this.handleProjectTitle(e)}>
-          <input
-            type="text"
-            ref={input => {
-              this.titleName = input;
-            }}
-          />
-          <button type="submit">Submit</button>
-        </form>
-
-        <form onSubmit={e => this.handleSubmit(e)}>
-          <input
-            type="text"
-            ref={input => {
-              this.suggestionInput = input;
-            }}
-          />
-          <button type="submit">Submit</button>
-        </form>
-        <ul>
-          {this.state.suggestions &&
-            this.state.suggestions.map((topic, index) => (
-              <li key={index}>
-                {topic.name}
-                <button
-                  onClick={() =>
-                    db
-                      .collection('suggestions')
-                      .doc(topic.id)
-                      .delete()
-                  }
-                >
-                  Delete Me
-                </button>
-              </li>
-            ))}
-        </ul>
         <SpecimenList />
       </div>
     );

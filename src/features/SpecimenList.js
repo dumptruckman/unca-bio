@@ -2,13 +2,14 @@ import React from 'react';
 import AccessibleReactTable from 'accessible-react-table';
 import 'react-table/react-table.css';
 import { FirestoreCollection } from 'react-firestore';
+import SpecimenDetail from './SpecimenDetail';
 
 export default () => (
   <FirestoreCollection
     path="specimens"
     render={({ isLoading, data }) => {
       if (isLoading) {
-        return <p>"loading"</p>;
+        return <p>Loading...</p>;
       }
       return (
         <AccessibleReactTable
@@ -22,6 +23,7 @@ export default () => (
                   .includes(filter.value.toLowerCase())
               : true;
           }}
+          SubComponent={({ original }) => <SpecimenDetail specimen={original} />}
           columns={[
             {
               Header: 'Catalog Number',
