@@ -14,17 +14,17 @@ const Identification = ({ classes, data: { identification } }) => (
   <div>
     <div>
       <Typography variant="title">
-        <i>
-          {identification.scientificName}
-          {identification.author && identification.author}
-          {identification.authorDate && identification.authorDate}
-        </i>
+        <i>{identification.scientificName}</i>
+        {(identification.author || identification.authorDate) &&
+          ' (' +
+            (identification.author && identification.author) +
+            (identification.author && identification.authorDate && ', ') +
+            (identification.authorDate && identification.authorDate.toDate().getFullYear()) +
+            ')'}
       </Typography>
     </div>
     <div>
-      <Typography color="textSecondary">
-        {identification.fullTaxonomy} {identification.subSpecies && identification.subSpecies}
-      </Typography>
+      <Typography color="textSecondary">{identification.fullTaxonomy}</Typography>
     </div>
     <div className={classes.commonName}>
       <Typography color="textSecondary">{identification.commonName}</Typography>
