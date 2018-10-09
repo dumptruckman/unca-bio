@@ -6,6 +6,7 @@ import DetailGrid from './detail/layout/DetailGrid';
 import DetailColumn from './detail/layout/DetailColumn';
 import DetailItem from './detail/layout/DetailItem';
 import Placeholder from './detail/Placeholder';
+import Collectors from './detail/Collectors';
 
 const SpecimenDetail = props => {
   const createDetails = data => (
@@ -19,6 +20,11 @@ const SpecimenDetail = props => {
         {data.locality && (
           <DetailItem title="Locality and Collection Details">
             <Locality data={data} />
+          </DetailItem>
+        )}
+        {data.collectors && (
+          <DetailItem title="Collector(s)">
+            <Collectors data={data} />
           </DetailItem>
         )}
       </DetailColumn>
