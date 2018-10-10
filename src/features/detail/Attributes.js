@@ -7,19 +7,7 @@ import DetailDatumRow from './layout/DetailDatumRow';
 import DetailDatumLabel from './layout/DetailDatumLabel';
 import DetailDatumValue from './layout/DetailDatumValue';
 
-const styles = theme => ({
-  valueCell: {
-    paddingTop: '0px',
-    paddingBottom: '0px',
-    width: '100%',
-  },
-  row: {
-    height: '0px',
-  },
-  noBorder: {
-    border: 'none',
-  },
-});
+const styles = theme => ({});
 
 const Attributes = ({ classes, data: { attributes }, editing }) => (
   <DetailDataTable>
