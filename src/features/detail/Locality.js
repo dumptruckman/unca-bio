@@ -2,24 +2,12 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableRow from '@material-ui/core/TableRow';
+import DetailDataTable from './layout/DetailDataTable';
+import DetailDatumRow from './layout/DetailDatumRow';
+import DetailDatumLabel from './layout/DetailDatumLabel';
+import DetailDatumValue from './layout/DetailDatumValue';
 
-const styles = theme => ({
-  valueCell: {
-    paddingTop: '0px',
-    paddingBottom: '0px',
-    width: '100%',
-  },
-  row: {
-    height: '0px',
-  },
-  noBorder: {
-    border: 'none',
-  },
-});
+const styles = theme => ({});
 
 const Locality = ({ classes, data: { locality }, editing }) => {
   const coords = locality ? locality.coordinates : undefined;
@@ -31,106 +19,86 @@ const Locality = ({ classes, data: { locality }, editing }) => {
     : undefined;
 
   return (
-    <div>
-      <Table>
-        <TableBody>
-          {(editing || locality.continentOcean) && (
-            <TableRow className={classes.row}>
-              <TableCell className={classes.noBorder} variant="head" padding="none">
-                <Typography align="right">Continent/Ocean:</Typography>
-              </TableCell>
-              <TableCell className={[classes.valueCell, classes.noBorder]}>
-                {editing ? <TextField /> : <Typography>{locality.continentOcean}</Typography>}
-              </TableCell>
-            </TableRow>
-          )}
-          {(editing || locality.country) && (
-            <TableRow className={classes.row}>
-              <TableCell className={classes.noBorder} variant="head" padding="none">
-                <Typography align="right">Country:</Typography>
-              </TableCell>
-              <TableCell className={[classes.valueCell, classes.noBorder]}>
-                {editing ? <TextField /> : <Typography>{locality.country}</Typography>}
-              </TableCell>
-            </TableRow>
-          )}
-          {(editing || locality.stateProvince) && (
-            <TableRow className={classes.row}>
-              <TableCell className={classes.noBorder} variant="head" padding="none">
-                <Typography align="right">State/Province:</Typography>
-              </TableCell>
-              <TableCell className={[classes.valueCell, classes.noBorder]}>
-                {editing ? <TextField /> : <Typography>{locality.stateProvince}</Typography>}
-              </TableCell>
-            </TableRow>
-          )}
-          {(editing || locality.specificLocality) && (
-            <TableRow className={classes.row}>
-              <TableCell className={classes.noBorder} variant="head" padding="none">
-                <Typography align="right">Specific Locality:</Typography>
-              </TableCell>
-              <TableCell className={[classes.valueCell, classes.noBorder]}>
-                {editing ? <TextField /> : <Typography>{locality.specificLocality}</Typography>}
-              </TableCell>
-            </TableRow>
-          )}
-          {(editing || coords) && (
-            <TableRow className={classes.row}>
-              <TableCell className={classes.noBorder} variant="head" padding="none">
-                <Typography align="right">Coordinates:</Typography>
-              </TableCell>
-              <TableCell className={[classes.valueCell, classes.noBorder]}>
-                {editing ? (
-                  <TextField />
-                ) : (
-                  <Typography>
-                    {coords.latitude}° {coords.longitude}°
-                  </Typography>
-                )}
-              </TableCell>
-            </TableRow>
-          )}
-          {(editing || (fromDate && toDate)) && (
-            <TableRow className={classes.row}>
-              <TableCell className={classes.noBorder} variant="head" padding="none">
-                <Typography align="right">Collecting Date:</Typography>
-              </TableCell>
-              <TableCell className={[classes.valueCell, classes.noBorder]}>
-                {editing ? (
-                  <TextField />
-                ) : (
-                  <Typography>
-                    {fromDate.getFullYear()}-{toDate.getFullYear()} ({fromDate.getFullYear()}/
-                    {fromDate.getMonth() + 1}/{fromDate.getDate()} - {toDate.getFullYear()}/
-                    {toDate.getMonth() + 1}/{toDate.getDate()})
-                  </Typography>
-                )}
-              </TableCell>
-            </TableRow>
-          )}
-          {(editing || locality.collectingRemarks) && (
-            <TableRow className={classes.row}>
-              <TableCell className={classes.noBorder} variant="head" padding="none">
-                <Typography align="right">Collecting Remarks:</Typography>
-              </TableCell>
-              <TableCell className={[classes.valueCell, classes.noBorder]}>
-                {editing ? <TextField /> : <Typography>{locality.collectingRemarks}</Typography>}
-              </TableCell>
-            </TableRow>
-          )}
-          {(editing || locality.fieldCatalogNumber) && (
-            <TableRow className={classes.row}>
-              <TableCell className={classes.noBorder} variant="head" padding="none">
-                <Typography align="right">Field Catalog Number:</Typography>
-              </TableCell>
-              <TableCell className={[classes.valueCell, classes.noBorder]}>
-                {editing ? <TextField /> : <Typography>{locality.fieldCatalogNumber}</Typography>}
-              </TableCell>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
-    </div>
+    <DetailDataTable>
+      {(editing || locality.continentOcean) && (
+        <DetailDatumRow>
+          <DetailDatumLabel>Continent/Ocean:</DetailDatumLabel>
+          <DetailDatumValue>
+            {editing ? <TextField /> : <Typography>{locality.continentOcean}</Typography>}
+          </DetailDatumValue>
+        </DetailDatumRow>
+      )}
+      {(editing || locality.country) && (
+        <DetailDatumRow>
+          <DetailDatumLabel>Country:</DetailDatumLabel>
+          <DetailDatumValue>
+            {editing ? <TextField /> : <Typography>{locality.country}</Typography>}
+          </DetailDatumValue>
+        </DetailDatumRow>
+      )}
+      {(editing || locality.stateProvince) && (
+        <DetailDatumRow>
+          <DetailDatumLabel>State/Province:</DetailDatumLabel>
+          <DetailDatumValue>
+            {editing ? <TextField /> : <Typography>{locality.stateProvince}</Typography>}
+          </DetailDatumValue>
+        </DetailDatumRow>
+      )}
+      {(editing || locality.specificLocality) && (
+        <DetailDatumRow>
+          <DetailDatumLabel>Specific Locality:</DetailDatumLabel>
+          <DetailDatumValue>
+            {editing ? <TextField /> : <Typography>{locality.specificLocality}</Typography>}
+          </DetailDatumValue>
+        </DetailDatumRow>
+      )}
+      {(editing || coords) && (
+        <DetailDatumRow>
+          <DetailDatumLabel>Coordinates:</DetailDatumLabel>
+          <DetailDatumValue>
+            {editing ? (
+              <TextField />
+            ) : (
+              <Typography>
+                {coords.latitude}° {coords.longitude}°
+              </Typography>
+            )}
+          </DetailDatumValue>
+        </DetailDatumRow>
+      )}
+      {(editing || (fromDate && toDate)) && (
+        <DetailDatumRow>
+          <DetailDatumLabel>Collecting Date:</DetailDatumLabel>
+          <DetailDatumValue>
+            {editing ? (
+              <TextField />
+            ) : (
+              <Typography>
+                {fromDate.getFullYear()}-{toDate.getFullYear()} ({fromDate.getFullYear()}/
+                {fromDate.getMonth() + 1}/{fromDate.getDate()} - {toDate.getFullYear()}/
+                {toDate.getMonth() + 1}/{toDate.getDate()})
+              </Typography>
+            )}
+          </DetailDatumValue>
+        </DetailDatumRow>
+      )}
+      {(editing || locality.collectingRemarks) && (
+        <DetailDatumRow>
+          <DetailDatumLabel>Collecting Remarks:</DetailDatumLabel>
+          <DetailDatumValue>
+            {editing ? <TextField /> : <Typography>{locality.collectingRemarks}</Typography>}
+          </DetailDatumValue>
+        </DetailDatumRow>
+      )}
+      {(editing || locality.fieldCatalogNumber) && (
+        <DetailDatumRow>
+          <DetailDatumLabel>Field Catalog Number:</DetailDatumLabel>
+          <DetailDatumValue>
+            {editing ? <TextField /> : <Typography>{locality.fieldCatalogNumber}</Typography>}
+          </DetailDatumValue>
+        </DetailDatumRow>
+      )}
+    </DetailDataTable>
   );
 };
 

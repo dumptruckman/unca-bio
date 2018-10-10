@@ -23,7 +23,6 @@ const SpecimenDetail = props => {
             <Locality data={data} editing={props.editing} />
           </DetailItem>
         )}
-        {/*{(data.collectors || props.editing) && (*/}
         {data.collectors && (
           <DetailItem title="Collector(s)">
             <Collectors data={data} editing={props.editing} />
@@ -64,7 +63,7 @@ const SpecimenDetail = props => {
 };
 
 SpecimenDetail.defaultProps = {
-  editing: true,
+  editing: false,
 };
 
 export default SpecimenDetail;

@@ -2,10 +2,10 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableRow from '@material-ui/core/TableRow';
+import DetailDataTable from './layout/DetailDataTable';
+import DetailDatumRow from './layout/DetailDatumRow';
+import DetailDatumLabel from './layout/DetailDatumLabel';
+import DetailDatumValue from './layout/DetailDatumValue';
 
 const styles = theme => ({
   valueCell: {
@@ -22,20 +22,16 @@ const styles = theme => ({
 });
 
 const Attributes = ({ classes, data: { attributes }, editing }) => (
-  <Table>
-    <TableBody>
-      {(editing || attributes.sex) && (
-        <TableRow className={classes.row}>
-          <TableCell className={classes.noBorder} variant="head" padding="none">
-            <Typography>Sex:</Typography>
-          </TableCell>
-          <TableCell className={[classes.valueCell, classes.noBorder]}>
-            {editing ? <TextField /> : <Typography>{attributes.sex}</Typography>}
-          </TableCell>
-        </TableRow>
-      )}
-    </TableBody>
-  </Table>
+  <DetailDataTable>
+    {(editing || attributes.sex) && (
+      <DetailDatumRow>
+        <DetailDatumLabel>Sex:</DetailDatumLabel>
+        <DetailDatumValue>
+          {editing ? <TextField /> : <Typography>{attributes.sex}</Typography>}
+        </DetailDatumValue>
+      </DetailDatumRow>
+    )}
+  </DetailDataTable>
 );
 
 export default withStyles(styles)(Attributes);
