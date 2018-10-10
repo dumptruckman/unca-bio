@@ -36,10 +36,6 @@ export default () => (
               Cell: ({ value }) => <i>{value}</i>,
             },
             {
-              Header: 'Common Name',
-              accessor: 'identification.commonName',
-            },
-            {
               Header: 'Sex',
               accessor: 'attributes.sex',
               maxWidth: 100,
