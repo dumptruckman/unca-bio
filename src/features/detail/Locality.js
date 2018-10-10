@@ -1,7 +1,7 @@
-/* eslint-disable */
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import TextField from '@material-ui/core/TextField';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -21,98 +21,110 @@ const styles = theme => ({
   },
 });
 
-const Locality = ({ classes, data: { locality } }) => {
-  const coords = locality.coordinates;
-  const fromDate = locality.collectingDateFrom && locality.collectingDateFrom.toDate();
-  const toDate = locality.collectingDateTo && locality.collectingDateTo.toDate();
+const Locality = ({ classes, data: { locality }, editing }) => {
+  const coords = locality ? locality.coordinates : undefined;
+  const fromDate = locality
+    ? locality.collectingDateFrom && locality.collectingDateFrom.toDate()
+    : undefined;
+  const toDate = locality
+    ? locality.collectingDateTo && locality.collectingDateTo.toDate()
+    : undefined;
 
   return (
     <div>
       <Table>
         <TableBody>
-          {locality.continentOcean && (
+          {(editing || locality.continentOcean) && (
             <TableRow className={classes.row}>
               <TableCell className={classes.noBorder} variant="head" padding="none">
                 <Typography align="right">Continent/Ocean:</Typography>
               </TableCell>
               <TableCell className={[classes.valueCell, classes.noBorder]}>
-                <Typography>{locality.continentOcean}</Typography>
+                {editing ? <TextField /> : <Typography>{locality.continentOcean}</Typography>}
               </TableCell>
             </TableRow>
           )}
-          {locality.country && (
+          {(editing || locality.country) && (
             <TableRow className={classes.row}>
               <TableCell className={classes.noBorder} variant="head" padding="none">
                 <Typography align="right">Country:</Typography>
               </TableCell>
               <TableCell className={[classes.valueCell, classes.noBorder]}>
-                <Typography>{locality.country}</Typography>
+                {editing ? <TextField /> : <Typography>{locality.country}</Typography>}
               </TableCell>
             </TableRow>
           )}
-          {locality.stateProvince && (
+          {(editing || locality.stateProvince) && (
             <TableRow className={classes.row}>
               <TableCell className={classes.noBorder} variant="head" padding="none">
                 <Typography align="right">State/Province:</Typography>
               </TableCell>
               <TableCell className={[classes.valueCell, classes.noBorder]}>
-                <Typography>{locality.stateProvince}</Typography>
+                {editing ? <TextField /> : <Typography>{locality.stateProvince}</Typography>}
               </TableCell>
             </TableRow>
           )}
-          {locality.specificLocality && (
+          {(editing || locality.specificLocality) && (
             <TableRow className={classes.row}>
               <TableCell className={classes.noBorder} variant="head" padding="none">
                 <Typography align="right">Specific Locality:</Typography>
               </TableCell>
               <TableCell className={[classes.valueCell, classes.noBorder]}>
-                <Typography>{locality.specificLocality}</Typography>
+                {editing ? <TextField /> : <Typography>{locality.specificLocality}</Typography>}
               </TableCell>
             </TableRow>
           )}
-          {locality.coordinates && (
+          {(editing || coords) && (
             <TableRow className={classes.row}>
               <TableCell className={classes.noBorder} variant="head" padding="none">
                 <Typography align="right">Coordinates:</Typography>
               </TableCell>
               <TableCell className={[classes.valueCell, classes.noBorder]}>
-                <Typography>
-                  {coords.latitude}° {coords.longitude}°
-                </Typography>
+                {editing ? (
+                  <TextField />
+                ) : (
+                  <Typography>
+                    {coords.latitude}° {coords.longitude}°
+                  </Typography>
+                )}
               </TableCell>
             </TableRow>
           )}
-          {fromDate && toDate && (
+          {(editing || (fromDate && toDate)) && (
             <TableRow className={classes.row}>
               <TableCell className={classes.noBorder} variant="head" padding="none">
                 <Typography align="right">Collecting Date:</Typography>
               </TableCell>
               <TableCell className={[classes.valueCell, classes.noBorder]}>
-                <Typography>
-                  {fromDate.getFullYear()}-{toDate.getFullYear()} ({fromDate.getFullYear()}/
-                  {fromDate.getMonth() + 1}/{fromDate.getDate()} - {toDate.getFullYear()}/
-                  {toDate.getMonth() + 1}/{toDate.getDate()})
-                </Typography>
+                {editing ? (
+                  <TextField />
+                ) : (
+                  <Typography>
+                    {fromDate.getFullYear()}-{toDate.getFullYear()} ({fromDate.getFullYear()}/
+                    {fromDate.getMonth() + 1}/{fromDate.getDate()} - {toDate.getFullYear()}/
+                    {toDate.getMonth() + 1}/{toDate.getDate()})
+                  </Typography>
+                )}
               </TableCell>
             </TableRow>
           )}
-          {locality.collectingRemarks && (
+          {(editing || locality.collectingRemarks) && (
             <TableRow className={classes.row}>
               <TableCell className={classes.noBorder} variant="head" padding="none">
                 <Typography align="right">Collecting Remarks:</Typography>
               </TableCell>
               <TableCell className={[classes.valueCell, classes.noBorder]}>
-                <Typography>{locality.collectingRemarks}</Typography>
+                {editing ? <TextField /> : <Typography>{locality.collectingRemarks}</Typography>}
               </TableCell>
             </TableRow>
           )}
-          {locality.fieldCatalogNumber && (
+          {(editing || locality.fieldCatalogNumber) && (
             <TableRow className={classes.row}>
               <TableCell className={classes.noBorder} variant="head" padding="none">
                 <Typography align="right">Field Catalog Number:</Typography>
               </TableCell>
               <TableCell className={[classes.valueCell, classes.noBorder]}>
-                <Typography>{locality.fieldCatalogNumber}</Typography>
+                {editing ? <TextField /> : <Typography>{locality.fieldCatalogNumber}</Typography>}
               </TableCell>
             </TableRow>
           )}
