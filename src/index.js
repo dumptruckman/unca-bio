@@ -13,6 +13,7 @@ import Home from './features/Home';
 import SpecimenDetail from './features/SpecimenDetail';
 import './config/constants';
 import 'firebase/firestore';
+import DefaultLayout from './DefaultLayout';
 
 const customHistory = createBrowserHistory();
 
@@ -23,7 +24,7 @@ const Root = () => (
         <Route path="/login" component={Login} />
         <Route path="/app/home" component={Home} />
         <Route path="/specimen/:id" component={SpecimenDetail} />
-        <Route exact path="/" component={App} />
+        <DefaultLayout exact path="/" component={App} title="Master" />
       </div>
     </Router>
   </FirestoreProvider>
