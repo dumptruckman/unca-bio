@@ -14,20 +14,24 @@ import SpecimenDetail from './features/SpecimenDetail';
 import './config/constants';
 import 'firebase/firestore';
 import DefaultLayout from './DefaultLayout';
+import FirebaseAuthProvider from './features/auth/FirebaseAuthProvider';
+import { firebaseAuth } from './config/constants';
 
 const customHistory = createBrowserHistory();
 
 const Root = () => (
-  <FirestoreProvider firebase={firebase}>
-    <Router history={customHistory}>
-      <div>
-        <Route path="/login" component={Login} />
-        <Route path="/app/home" component={Home} />
-        <Route path="/specimen/:id" component={SpecimenDetail} />
-        <DefaultLayout exact path="/" component={App} title="Master" />
-      </div>
-    </Router>
-  </FirestoreProvider>
+  <FirebaseAuthProvider firebaseAuth={firebaseAuth}>
+    <FirestoreProvider firebase={firebase}>
+      <Router history={customHistory}>
+        <div>
+          <Route path="/login" component={Login} />
+          <Route path="/app/home" component={Home} />
+          <Route path="/specimen/:id" component={SpecimenDetail} />
+          <DefaultLayout exact path="/" component={App} title="Master" />
+        </div>
+      </Router>
+    </FirestoreProvider>
+  </FirebaseAuthProvider>
 );
 
 ReactDOM.render(<Root />, document.getElementById('root'));

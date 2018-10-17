@@ -11,6 +11,7 @@ import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import Navigation from './features/Navigation';
+import LoginButton from './features/auth/LoginButton';
 
 const styles = {
   root: {
@@ -54,10 +55,10 @@ class DefaultLayout extends React.Component {
                 >
                   <MenuIcon />
                 </IconButton>
-                <Typography variant="h6" color="inherit" className={classes.grow}>
+                <Typography variant="title" color="inherit" className={classes.grow}>
                   {title}
                 </Typography>
-                <Button color="inherit">Login</Button>
+                <LoginButton />
               </Toolbar>
             </AppBar>
             <Component {...matchProps} />
