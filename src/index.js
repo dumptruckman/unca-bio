@@ -20,8 +20,8 @@ import { firebaseAuth } from './config/constants';
 const customHistory = createBrowserHistory();
 
 const Root = () => (
-  <FirebaseAuthProvider firebaseAuth={firebaseAuth}>
-    <FirestoreProvider firebase={firebase}>
+  <FirestoreProvider firebase={firebase}>
+    <FirebaseAuthProvider firebaseAuth={firebaseAuth}>
       <Router history={customHistory}>
         <div>
           <Route path="/login" component={Login} />
@@ -30,8 +30,8 @@ const Root = () => (
           <DefaultLayout exact path="/" component={App} title="Master" />
         </div>
       </Router>
-    </FirestoreProvider>
-  </FirebaseAuthProvider>
+    </FirebaseAuthProvider>
+  </FirestoreProvider>
 );
 
 ReactDOM.render(<Root />, document.getElementById('root'));

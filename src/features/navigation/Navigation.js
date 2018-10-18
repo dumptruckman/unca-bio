@@ -8,6 +8,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import InboxIcon from '@material-ui/icons/Inbox';
 import DraftsIcon from '@material-ui/icons/Drafts';
+import AdminNavigation from './AdminNavigation';
 
 const styles = theme => ({
   root: {
@@ -17,10 +18,9 @@ const styles = theme => ({
   },
 });
 
-function Navigation(props) {
-  const { classes } = props;
-  return (
-    <div className={classes.root}>
+const Navigation = ({ classes }) => (
+  <div className={classes.root}>
+    <div>
       <List component="nav">
         <ListItem button>
           <ListItemIcon>
@@ -44,9 +44,10 @@ function Navigation(props) {
           <ListItemText primary="Spam" />
         </ListItem>
       </List>
+      <AdminNavigation />
     </div>
-  );
-}
+  </div>
+);
 
 Navigation.propTypes = {
   classes: PropTypes.object.isRequired,

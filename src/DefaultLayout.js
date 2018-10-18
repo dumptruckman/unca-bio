@@ -10,7 +10,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
-import Navigation from './features/Navigation';
+import Navigation from './features/navigation/Navigation';
 import LoginButton from './features/auth/LoginButton';
 
 const styles = {
