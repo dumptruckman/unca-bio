@@ -13,33 +13,33 @@ const SpecimenDetail = props => {
   const createDetails = data => (
     <DetailGrid>
       <DetailColumn>
-        {data.identification && (
+        {(data.identification || props.editing) && (
           <DetailItem title="Identification">
-            <Identification data={data} />
+            <Identification data={data} editing={props.editing} />
           </DetailItem>
         )}
-        {data.locality && (
+        {(data.locality || props.editing) && (
           <DetailItem title="Locality and Collection Details">
-            <Locality data={data} />
+            <Locality data={data} editing={props.editing} />
           </DetailItem>
         )}
         {data.collectors && (
           <DetailItem title="Collector(s)">
-            <Collectors data={data} />
+            <Collectors data={data} editing={props.editing} />
           </DetailItem>
         )}
       </DetailColumn>
       <DetailColumn>
         <DetailItem title="Extra Details">
-          <Placeholder data={data} />
+          <Placeholder data={data} editing={props.editing} />
         </DetailItem>
-        {data.attributes && (
+        {(data.attributes || props.editing) && (
           <DetailItem title="Attributes">
-            <Attributes data={data} />
+            <Attributes data={data} editing={props.editing} />
           </DetailItem>
         )}
         <DetailItem>
-          <Placeholder data={data} />
+          <Placeholder data={data} editing={props.editing} />
         </DetailItem>
       </DetailColumn>
     </DetailGrid>
@@ -60,6 +60,10 @@ const SpecimenDetail = props => {
       />
     );
   }
+};
+
+SpecimenDetail.defaultProps = {
+  editing: false,
 };
 
 export default SpecimenDetail;
