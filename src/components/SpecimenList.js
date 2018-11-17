@@ -2,7 +2,7 @@ import React from 'react';
 import AccessibleReactTable from 'accessible-react-table';
 import 'react-table/react-table.css';
 import { FirestoreCollection } from 'react-firestore';
-import SpecimenDetail from './SpecimenDetail';
+import SpecimenDetail from './detail/SpecimenDetail';
 
 export default () => (
   <FirestoreCollection

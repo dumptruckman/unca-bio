@@ -2,7 +2,7 @@ import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
-import { SpecimenDetailContext } from '../../SpecimenDetail';
+import { SpecimenDetailContext } from '../SpecimenDetail';
 
 const ConditionalDataField = ({ conditional, className, label, value, input, children }) => (
   <SpecimenDetailContext.Consumer>

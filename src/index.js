@@ -10,12 +10,12 @@ import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import Login from './components/Login';
 import Home from './components/Home';
-import SpecimenDetail from './components/SpecimenDetail';
 import './config/constants';
 import 'firebase/firestore';
 import DefaultLayout from './components/DefaultLayout';
 import FirebaseAuthProvider from './components/auth/FirebaseAuthProvider';
 import { firebaseAuth } from './config/constants';
+import SpecimenDetailPage from './components/detail/SpecimenDetailPage';
 
 const customHistory = createBrowserHistory();
 
@@ -26,7 +26,7 @@ const Root = () => (
         <div>
           <Route path="/login" component={Login} />
           <Route path="/app/home" component={Home} />
-          <Route path="/specimen/:id" component={SpecimenDetail} />
+          <Route path="/specimen/:id" component={SpecimenDetailPage} />
           <DefaultLayout exact path="/" component={App} title="Master" />
         </div>
       </Router>
