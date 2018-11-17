@@ -8,13 +8,13 @@ import firebase from 'firebase';
 import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
-import Login from './features/Login';
-import Home from './features/Home';
-import SpecimenDetail from './features/SpecimenDetail';
+import Login from './components/Login';
+import Home from './components/Home';
+import SpecimenDetail from './components/SpecimenDetail';
 import './config/constants';
 import 'firebase/firestore';
-import DefaultLayout from './DefaultLayout';
-import FirebaseAuthProvider from './features/auth/FirebaseAuthProvider';
+import DefaultLayout from './components/DefaultLayout';
+import FirebaseAuthProvider from './components/auth/FirebaseAuthProvider';
 import { firebaseAuth } from './config/constants';
 
 const customHistory = createBrowserHistory();
