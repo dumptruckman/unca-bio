@@ -8,8 +8,6 @@ import firebase from 'firebase';
 import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
-import Login from './components/Login';
-import Home from './components/Home';
 import './config/constants';
 import 'firebase/firestore';
 import DefaultLayout from './components/DefaultLayout';
@@ -24,8 +22,6 @@ const Root = () => (
     <FirebaseAuthProvider firebaseAuth={firebaseAuth}>
       <Router history={customHistory}>
         <div>
-          <Route path="/login" component={Login} />
-          <Route path="/app/home" component={Home} />
           <Route path="/specimen/:id" component={SpecimenDetailPage} />
           <DefaultLayout exact path="/" component={App} title="Master" />
         </div>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { withFirestore } from 'react-firestore';
+import AuthUtil from '../../util/AuthUtil';
 
 export const FirebaseAuthContext = React.createContext({
   isAuthed: false,
@@ -17,15 +18,15 @@ class FirebaseAuthProvider extends React.Component {
   componentDidMount() {
     const { firestore } = this.props;
 
-    this.props.firebaseAuth().onAuthStateChanged(authUser => {
+    this.props.firebaseAuth.onAuthStateChanged(authUser => {
       if (authUser) {
         firestore
           .doc(`users/${authUser.uid}`)
           .get()
           .then(user => {
             this.setState({
-              authUser,
-              userInfo: user.exists ? user.data() : null,
+              authUser: authUser,
+              userInfo: user.exists ? { ...user.data(), id: user.id } : null,
             });
           });
       } else {
@@ -43,8 +44,9 @@ class FirebaseAuthProvider extends React.Component {
           isAuthed: authUser != null,
           authUser,
           isAdmin: userInfo ? userInfo.admin : null,
-          isContributor: userInfo ? userInfo.contributor : null,
-          auth: this.props.firebaseAuth,
+          employeeId: userInfo ? userInfo.employeeId : null,
+          userInfo,
+          authUtil: new AuthUtil(this.props.firebaseAuth),
         }}
       >
         {this.props.children}
