@@ -21,13 +21,21 @@ class FirebaseAuthProvider extends React.Component {
     this.props.firebaseAuth.onAuthStateChanged(authUser => {
       if (authUser) {
         firestore
-          .doc(`users/${authUser.uid}`)
+          .collection('users')
+          .where('email', '==', authUser.email)
+          //.doc(`users/${authUser.uid}`)
           .get()
-          .then(user => {
-            this.setState({
-              authUser: authUser,
-              userInfo: user.exists ? { ...user.data(), id: user.id } : null,
-            });
+          .then(coll => {
+            if (!coll.empty) {
+              const user = coll.docs[0];
+              this.setState({
+                authUser: authUser,
+                userInfo: { ...user.data(), id: user.id },
+              });
+            } else {
+              authUser.delete();
+              alert('You are not authorized. Please check with the catalog administrator.');
+            }
           });
       } else {
         this.setState({ authUser: null, userInfo: null });
