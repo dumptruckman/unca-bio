@@ -14,7 +14,7 @@ const styles = theme => ({
 });
 
 const DetailDatumValue = ({ classes, children, ...extraProps }) => (
-  <TableCell className={[classes.valueCell, classes.noBorder]} {...extraProps}>
+  <TableCell className={[classes.valueCell, classes.noBorder].join(' ')} {...extraProps}>
     {children}
   </TableCell>
 );

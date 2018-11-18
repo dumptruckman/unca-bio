@@ -4,6 +4,7 @@ import 'react-table/react-table.css';
 import { FirestoreCollection } from 'react-firestore';
 import SpecimenDetail from './detail/SpecimenDetail';
 import LoadingBar from './shared/LoadingBar';
+import { extractScientificName } from '../util/taxonomy';
 
 export default () => (
   <FirestoreCollection
@@ -15,7 +16,7 @@ export default () => (
           data={data}
           filterable={true}
           loading={isLoading}
-          defaultFilterMethod={(filter, row, column) => {
+          defaultFilterMethod={(filter, row) => {
             const id = filter.pivotId || filter.id;
             return row[id] !== undefined
               ? String(row[id])
@@ -32,8 +33,8 @@ export default () => (
             },
             {
               Header: 'Taxonomy',
-              accessor: 'identification.scientificName',
-              Cell: ({ value }) => <i>{value}</i>,
+              accessor: 'identification.fullTaxonomy',
+              Cell: ({ value }) => <i>{extractScientificName(value)}</i>,
             },
             {
               Header: 'Sex',
