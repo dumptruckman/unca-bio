@@ -9,6 +9,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteUserDialog from './DeleteUserDialog';
+import FirebaseAuth from '../auth/FirebaseAuth';
+import NotAuthorized from '../shared/NotAuthorized';
 
 const styles = theme => ({
   button: {
@@ -101,84 +103,94 @@ class Users extends React.Component {
     const { classes } = this.props;
 
     return (
-      <div>
-        <Button onClick={this.handleClickOpen()}>Add User</Button>
-        <FirestoreCollection path="users">
-          {({ isLoading, data }) => (
-            <div>
-              <LoadingBar isLoading={isLoading} />
-              <AccessibleReactTable
-                loading={isLoading}
-                data={data}
-                filterable={true}
-                defaultFilterMethod={(filter, row, column) => {
-                  const id = filter.pivotId || filter.id;
-                  return row[id] !== undefined
-                    ? String(row[id])
-                        .toLowerCase()
-                        .includes(filter.value.toLowerCase())
-                    : true;
-                }}
-                getTdProps={() => ({ className: classes.tdProps })}
-                columns={[
-                  {
-                    Header: 'Email',
-                    accessor: 'email',
-                  },
-                  {
-                    Header: 'Name',
-                    accessor: 'displayName',
-                  },
-                  {
-                    Header: 'Administrator?',
-                    accessor: 'admin',
-                    maxWidth: 200,
-                    Cell: ({ value }) => (value ? 'Yes' : ''),
-                  },
-                  {
-                    Header: 'Contributor?',
-                    accessor: 'contributor',
-                    maxWidth: 200,
-                    Cell: ({ value }) => (value ? 'Yes' : ''),
-                  },
-                  {
-                    Header: 'Actions',
-                    maxWidth: 200,
-                    Cell: props => (
-                      <div>
-                        <IconButton
-                          aria-label="Edit"
-                          className={classes.button}
-                          onClick={this.handleClickOpen(props.original)}
-                        >
-                          <EditIcon />
-                        </IconButton>
-                        <IconButton
-                          aria-label="Delete"
-                          className={classes.button}
-                          onClick={this.handleDelete(props.original)}
-                        >
-                          <DeleteIcon />
-                        </IconButton>
-                      </div>
-                    ),
-                  },
-                ]}
-              />
-            </div>
-          )}
-        </FirestoreCollection>
-        <AddEditUserDialog
-          userData={this.state.userData}
-          open={this.state.userDialogOpen}
-          onClose={this.handleClose}
-        />
-        <DeleteUserDialog
-          userData={this.state.userData}
-          open={this.state.deleteDialogOpen}
-          onClose={this.handleDeleteDialogClose}
-        />
-      </div>
+      <FirebaseAuth>
+        {({ isAdmin }) => {
+          if (isAdmin) {
+            return (
+              <div>
+                <Button onClick={this.handleClickOpen()}>Add User</Button>
+                <FirestoreCollection path="users">
+                  {({ isLoading, data }) => (
+                    <div>
+                      <LoadingBar isLoading={isLoading} />
+                      <AccessibleReactTable
+                        loading={isLoading}
+                        data={data}
+                        filterable={true}
+                        defaultFilterMethod={(filter, row, column) => {
+                          const id = filter.pivotId || filter.id;
+                          return row[id] !== undefined
+                            ? String(row[id])
+                                .toLowerCase()
+                                .includes(filter.value.toLowerCase())
+                            : true;
+                        }}
+                        getTdProps={() => ({ className: classes.tdProps })}
+                        columns={[
+                          {
+                            Header: 'Email',
+                            accessor: 'email',
+                          },
+                          {
+                            Header: 'Name',
+                            accessor: 'displayName',
+                          },
+                          {
+                            Header: 'Administrator?',
+                            accessor: 'admin',
+                            maxWidth: 200,
+                            Cell: ({ value }) => (value ? 'Yes' : ''),
+                          },
+                          {
+                            Header: 'Contributor?',
+                            accessor: 'contributor',
+                            maxWidth: 200,
+                            Cell: ({ value }) => (value ? 'Yes' : ''),
+                          },
+                          {
+                            Header: 'Actions',
+                            maxWidth: 200,
+                            Cell: props => (
+                              <div>
+                                <IconButton
+                                  aria-label="Edit"
+                                  className={classes.button}
+                                  onClick={this.handleClickOpen(props.original)}
+                                >
+                                  <EditIcon />
+                                </IconButton>
+                                <IconButton
+                                  aria-label="Delete"
+                                  className={classes.button}
+                                  onClick={this.handleDelete(props.original)}
+                                >
+                                  <DeleteIcon />
+                                </IconButton>
+                              </div>
+                            ),
+                          },
+                        ]}
+                      />
+                    </div>
+                  )}
+                </FirestoreCollection>
+                <AddEditUserDialog
+                  userData={this.state.userData}
+                  open={this.state.userDialogOpen}
+                  onClose={this.handleClose}
+                />
+                <DeleteUserDialog
+                  userData={this.state.userData}
+                  open={this.state.deleteDialogOpen}
+                  onClose={this.handleDeleteDialogClose}
+                />
+              </div>
+            );
+          } else {
+            return <NotAuthorized />;
+          }
+        }}
+      </FirebaseAuth>
     );
   }
 }

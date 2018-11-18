@@ -6,9 +6,10 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
-import InboxIcon from '@material-ui/icons/Inbox';
-import DraftsIcon from '@material-ui/icons/Drafts';
+import HomeIcon from '@material-ui/icons/Home';
 import AdminNavigation from './AdminNavigation';
+import FirebaseAuth from '../auth/FirebaseAuth';
+import { Link } from 'react-router-dom';
 
 const styles = theme => ({
   root: {
@@ -20,32 +21,36 @@ const styles = theme => ({
 
 const Navigation = ({ classes }) => (
   <div className={classes.root}>
-    <div>
-      <List component="nav">
-        <ListItem button>
-          <ListItemIcon>
-            <InboxIcon />
-          </ListItemIcon>
-          <ListItemText primary="Inbox" />
-        </ListItem>
-        <ListItem button>
-          <ListItemIcon>
-            <DraftsIcon />
-          </ListItemIcon>
-          <ListItemText primary="Drafts" />
-        </ListItem>
-      </List>
-      <Divider />
-      <List component="nav">
-        <ListItem button>
-          <ListItemText primary="Trash" />
-        </ListItem>
-        <ListItem button component="a" href="#simple-list">
-          <ListItemText primary="Spam" />
-        </ListItem>
-      </List>
-      <AdminNavigation />
-    </div>
+    <FirebaseAuth>
+      {({ isAdmin, isAuthed, authUtil }) => (
+        <div>
+          <List component="nav">
+            <ListItem button component={Link} to="/">
+              <ListItemIcon>
+                <HomeIcon />
+              </ListItemIcon>
+              <ListItemText primary="Home" />
+            </ListItem>
+          </List>
+          <AdminNavigation />
+          <Divider />
+          <List component="nav">
+            <ListItem
+              button
+              onClick={() => {
+                if (!isAuthed) {
+                  authUtil.doSignInWithGoogle();
+                } else {
+                  authUtil.doSignOut();
+                }
+              }}
+            >
+              <ListItemText primary={isAuthed ? 'Logout' : 'Login'} />
+            </ListItem>
+          </List>
+        </div>
+      )}
+    </FirebaseAuth>
   </div>
 );
 

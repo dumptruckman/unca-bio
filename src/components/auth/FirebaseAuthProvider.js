@@ -58,7 +58,7 @@ class FirebaseAuthProvider extends React.Component {
           isAuthed: authUser != null,
           authUser,
           isAdmin: userInfo ? userInfo.admin : null,
-          employeeId: userInfo ? userInfo.employeeId : null,
+          isContributor: userInfo ? userInfo.contributor : null,
           userInfo,
           authUtil: new AuthUtil(this.props.firebaseAuth),
         }}

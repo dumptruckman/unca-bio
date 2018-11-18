@@ -15,19 +15,28 @@ import FirebaseAuthProvider from './components/auth/FirebaseAuthProvider';
 import { firebaseAuth } from './config/constants';
 import SpecimenDetailPage from './components/detail/SpecimenDetailPage';
 import Users from './components/users/Users';
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 
 const customHistory = createBrowserHistory();
+
+const theme = createMuiTheme({
+  typography: {
+    useNextVariants: true,
+  },
+});
 
 const Root = () => (
   <FirestoreProvider firebase={firebase}>
     <FirebaseAuthProvider firebaseAuth={firebaseAuth}>
-      <Router history={customHistory}>
-        <div>
-          <Route path="/specimen/:id" component={SpecimenDetailPage} />
-          <DefaultLayout exact path="/" component={App} title="Master" />
-          <DefaultLayout path="/users" component={Users} title="Users" />
-        </div>
-      </Router>
+      <MuiThemeProvider theme={theme}>
+        <Router history={customHistory}>
+          <div>
+            <Route path="/specimen/:id" component={SpecimenDetailPage} />
+            <DefaultLayout exact path="/" component={App} title="Master" />
+            <DefaultLayout path="/users" component={Users} title="Users" />
+          </div>
+        </Router>
+      </MuiThemeProvider>
     </FirebaseAuthProvider>
   </FirestoreProvider>
 );
