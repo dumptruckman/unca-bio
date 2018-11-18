@@ -1,6 +1,7 @@
 import React from 'react';
 import { withFirestore } from 'react-firestore';
 import AuthUtil from '../../util/AuthUtil';
+import { googleProvider } from '../../config/constants';
 
 export const FirebaseAuthContext = React.createContext({
   isAuthed: false,
@@ -61,6 +62,7 @@ class FirebaseAuthProvider extends React.Component {
           isContributor: userInfo ? userInfo.contributor : null,
           userInfo,
           authUtil: new AuthUtil(this.props.firebaseAuth),
+          doReauthenticate: () => authUser.reauthenticateWithPopup(googleProvider),
         }}
       >
         {this.props.children}
