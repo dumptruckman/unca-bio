@@ -54,7 +54,7 @@ class DefaultLayout extends React.Component {
                 >
                   <MenuIcon />
                 </IconButton>
-                <Typography variant="title" color="inherit" className={classes.grow}>
+                <Typography variant="h6" color="inherit" className={classes.grow}>
                   {title}
                 </Typography>
                 <LoginButton />
