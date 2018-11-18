@@ -10,7 +10,7 @@ export default () => (
   <FirestoreCollection
     path="specimens"
     render={({ isLoading, data }) => (
-      <div>
+      <main>
         <LoadingBar isLoading={isLoading} />
         <AccessibleReactTable
           data={data}
@@ -61,7 +61,7 @@ export default () => (
             // },
           ]}
         />
-      </div>
+      </main>
     )}
   />
 );

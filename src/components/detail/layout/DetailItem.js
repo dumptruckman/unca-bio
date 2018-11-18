@@ -2,34 +2,45 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
+import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardContent from '@material-ui/core/CardContent';
 
 const styles = theme => ({
   title: {
-    marginLeft: '-5px',
-    paddingBottom: '5px',
+    marginLeft: '10px',
+    marginTop: '5px',
+    //paddingBottom: '5px',
   },
-  simplePaper: {
-    textAlign: 'left',
-  },
-  paper: {
-    padding: theme.spacing.unit * 2,
+  simpleCard: {
     textAlign: 'left',
     color: theme.palette.text.secondary,
+    paddingLeft: '10px',
+    paddingRight: '10px',
+    paddingTop: '5px',
+    paddingBottom: '5px',
+  },
+  card: {
+    textAlign: 'left',
+    color: theme.palette.text.secondary,
+  },
+  cardContent: {
+    padding: '20px',
+    paddingTop: '5px',
   },
 });
 
 const DetailItem = ({ classes, title, children }) => (
   <Grid item>
     {title ? (
-      <Paper className={classes.paper}>
+      <Card className={classes.card}>
         <Typography className={classes.title} variant="caption">
           {title}
         </Typography>
-        <Paper elevation={0}>{children}</Paper>
-      </Paper>
+        <CardContent className={classes.cardContent}>{children}</CardContent>
+      </Card>
     ) : (
-      <Paper className={classes.simplePaper}>{children}</Paper>
+      <Card className={classes.simpleCard}>{children}</Card>
     )}
   </Grid>
 );

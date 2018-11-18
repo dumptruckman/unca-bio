@@ -17,7 +17,7 @@ const Identification = ({
     identification: { author, authorDate, fullTaxonomy, commonName, identifiedBy, identifiedDate },
   },
 }) => (
-  <div>
+  <React.Fragment>
     <div>
       <Typography variant="h6">
         <i>{extractScientificName(fullTaxonomy)}</i>
@@ -40,7 +40,7 @@ const Identification = ({
         Identified by {identifiedBy ? identifiedBy : 'Catalog'} {identifiedDate}
       </Typography>
     </div>
-  </div>
+  </React.Fragment>
 );
 
 export default withStyles(styles)(Identification);
