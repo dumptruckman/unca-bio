@@ -54,21 +54,31 @@ class Users extends React.Component {
 
           const usersRef = firestore.collection('users');
           if (userData) {
-            usersRef.doc(userData.id).set(
-              {
+            usersRef
+              .doc(userData.id)
+              .set(
+                {
+                  displayName,
+                  contributor: Boolean(contributor),
+                  admin: Boolean(admin),
+                },
+                { merge: true }
+              )
+              .catch(error => {
+                console.log(`There was a problem saving user data:\n${error.message}`);
+              });
+          } else {
+            usersRef
+              .doc()
+              .set({
+                email,
                 displayName,
                 contributor: Boolean(contributor),
                 admin: Boolean(admin),
-              },
-              { merge: true }
-            );
-          } else {
-            usersRef.doc().set({
-              email,
-              displayName,
-              contributor: Boolean(contributor),
-              admin: Boolean(admin),
-            });
+              })
+              .catch(error => {
+                console.log(`There was a problem saving user data:\n${error.message}`);
+              });
           }
         }
       }
