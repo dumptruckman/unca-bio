@@ -3,18 +3,18 @@ import AccessibleReactTable from 'accessible-react-table';
 import 'react-table/react-table.css';
 import { FirestoreCollection } from 'react-firestore';
 import SpecimenDetail from './detail/SpecimenDetail';
+import LoadingBar from './shared/LoadingBar';
 
 export default () => (
   <FirestoreCollection
     path="specimens"
-    render={({ isLoading, data }) => {
-      if (isLoading) {
-        return <p>Loading...</p>;
-      }
-      return (
+    render={({ isLoading, data }) => (
+      <div>
+        <LoadingBar isLoading={isLoading} />
         <AccessibleReactTable
           data={data}
           filterable={true}
+          loading={isLoading}
           defaultFilterMethod={(filter, row, column) => {
             const id = filter.pivotId || filter.id;
             return row[id] !== undefined
@@ -60,7 +60,7 @@ export default () => (
             // },
           ]}
         />
-      );
-    }}
+      </div>
+    )}
   />
 );

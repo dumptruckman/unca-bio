@@ -28,9 +28,15 @@ class FirebaseAuthProvider extends React.Component {
           .then(coll => {
             if (!coll.empty) {
               const user = coll.docs[0];
+              const userData = user.data();
+
+              if (userData.displayName !== authUser.displayName) {
+                user.ref.set({ displayName: authUser.displayName }, { merge: true });
+              }
+
               this.setState({
                 authUser: authUser,
-                userInfo: { ...user.data(), id: user.id },
+                userInfo: { ...userData, id: user.id },
               });
             } else {
               authUser.delete();

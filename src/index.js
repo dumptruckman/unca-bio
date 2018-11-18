@@ -14,6 +14,7 @@ import DefaultLayout from './components/DefaultLayout';
 import FirebaseAuthProvider from './components/auth/FirebaseAuthProvider';
 import { firebaseAuth } from './config/constants';
 import SpecimenDetailPage from './components/detail/SpecimenDetailPage';
+import Users from './components/users/Users';
 
 const customHistory = createBrowserHistory();
 
@@ -24,6 +25,7 @@ const Root = () => (
         <div>
           <Route path="/specimen/:id" component={SpecimenDetailPage} />
           <DefaultLayout exact path="/" component={App} title="Master" />
+          <DefaultLayout path="/users" component={Users} title="Users" />
         </div>
       </Router>
     </FirebaseAuthProvider>
