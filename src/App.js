@@ -10,7 +10,6 @@ class App extends Component {
   };
 
   render() {
-    console.log(this.state.suggestions);
     return (
       <div className="App">
         <header className="App-header">

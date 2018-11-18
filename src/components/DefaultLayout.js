@@ -4,14 +4,12 @@ import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Drawer from '@material-ui/core/Drawer';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
 import Navigation from './navigation/Navigation';
 import LoginButton from './auth/LoginButton';
+import CssBaseline from '@material-ui/core/CssBaseline';
 
 const styles = {
   root: {
@@ -45,6 +43,7 @@ class DefaultLayout extends React.Component {
         {...rest}
         render={matchProps => (
           <div className={classes.root}>
+            <CssBaseline />
             <AppBar position="static">
               <Toolbar>
                 <IconButton
