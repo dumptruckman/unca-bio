@@ -19,6 +19,7 @@ import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 import Home from './components/home/Home';
 import * as routes from './constants/routes';
 import ScrollToTop from './components/ScrollToTop';
+import SpecimenListPage from './components/SpecimenListPage';
 
 const customHistory = createBrowserHistory();
 
@@ -35,7 +36,7 @@ const Root = () => (
         <Router history={customHistory}>
           <ScrollToTop>
             <Route path="/specimen/:id" component={SpecimenDetailPage} />
-            <DefaultLayout path={routes.MASTER} component={App} title="Master" />
+            <DefaultLayout path={routes.MASTER} component={SpecimenListPage} title="Master" />
             <DefaultLayout path={routes.USERS} component={Users} title="Users" />
             <DefaultLayout exact path={routes.HOME} component={Home} title="Users" />
           </ScrollToTop>

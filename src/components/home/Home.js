@@ -55,27 +55,24 @@ const styles = theme => ({
 });
 
 const Home = ({ classes, auth }) => (
-  <React.Fragment>
-    <div className={classes.layout}>
-      <Paper className={classes.titleBlock}>
-        <Typography className={classes.titleText} variant="h1" color="inherit">
-          UNCA Biology Specimen Catalog
-        </Typography>
-        <img className={classes.titleImage} src={titleImage} alt="Lizard skeleton specimen" />
-      </Paper>
-      <Grid container spacing={16}>
-        <HomeCard
-          title="Browse Specimens"
-          icon={ViewListIcon}
-          image={browseImage}
-          route={routes.MASTER}
-        />
-        <HomeCard title="Advanced Search" icon={SearchIcon} image={searchImage} />
-        {auth.isContributor && <HomeCard title="Add Specimens" icon={AddIcon} image={addImage} />}
-      </Grid>
-    </div>
-    <div className={classes.layout} />
-  </React.Fragment>
+  <main className={classes.layout}>
+    <Paper className={classes.titleBlock}>
+      <Typography className={classes.titleText} variant="h1" color="inherit">
+        UNCA Biology Specimen Catalog
+      </Typography>
+      <img className={classes.titleImage} src={titleImage} alt="Lizard skeleton specimen" />
+    </Paper>
+    <Grid container spacing={16}>
+      <HomeCard
+        title="Browse Specimens"
+        icon={ViewListIcon}
+        image={browseImage}
+        route={routes.MASTER}
+      />
+      <HomeCard title="Advanced Search" icon={SearchIcon} image={searchImage} />
+      {auth.isContributor && <HomeCard title="Add Specimens" icon={AddIcon} image={addImage} />}
+    </Grid>
+  </main>
 );
 
 export default withAuth(withStyles(styles)(Home));
