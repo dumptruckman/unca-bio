@@ -7,9 +7,11 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import HomeIcon from '@material-ui/icons/Home';
+import ViewListIcon from '@material-ui/icons/ViewList';
 import AdminNavigation from './AdminNavigation';
 import FirebaseAuth from '../auth/FirebaseAuth';
 import { Link } from 'react-router-dom';
+import * as routes from '../../constants/routes';
 
 const styles = theme => ({
   root: {
@@ -25,11 +27,17 @@ const Navigation = ({ classes }) => (
       {({ isAdmin, isAuthed, authUtil }) => (
         <div>
           <List component="nav">
-            <ListItem button component={Link} to="/">
+            <ListItem button component={Link} to={routes.HOME}>
               <ListItemIcon>
                 <HomeIcon />
               </ListItemIcon>
               <ListItemText primary="Home" />
+            </ListItem>
+            <ListItem button component={Link} to={routes.MASTER}>
+              <ListItemIcon>
+                <ViewListIcon />
+              </ListItemIcon>
+              <ListItemText primary="Browse Specimens" />
             </ListItem>
           </List>
           <AdminNavigation />

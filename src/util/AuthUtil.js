@@ -1,4 +1,4 @@
-import { googleProvider } from '../config/constants';
+import { googleProvider } from '../constants/firebaseConfig';
 
 export default class AuthUtil {
   constructor(firebaseAuth) {

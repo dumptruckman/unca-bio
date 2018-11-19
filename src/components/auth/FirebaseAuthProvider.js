@@ -1,7 +1,7 @@
 import React from 'react';
 import { withFirestore } from 'react-firestore';
 import AuthUtil from '../../util/AuthUtil';
-import { googleProvider } from '../../config/constants';
+import { googleProvider } from '../../constants/firebaseConfig';
 
 export const FirebaseAuthContext = React.createContext({
   isAuthed: false,

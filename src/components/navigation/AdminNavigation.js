@@ -9,6 +9,7 @@ import FirebaseAuth from '../auth/FirebaseAuth';
 import { Link } from 'react-router-dom';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import PeopleIcon from '@material-ui/icons/People';
+import * as routes from '../../constants/routes';
 
 const styles = theme => ({
   root: {
@@ -26,7 +27,7 @@ const AdminNavigation = () => (
           <div>
             <Divider />
             <List component="nav">
-              <ListItem button component={Link} to="/users">
+              <ListItem button component={Link} to={routes.USERS}>
                 <ListItemIcon>
                   <PeopleIcon />
                 </ListItemIcon>

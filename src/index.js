@@ -8,14 +8,17 @@ import firebase from 'firebase';
 import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
-import './config/constants';
+import './constants/firebaseConfig';
 import 'firebase/firestore';
 import DefaultLayout from './components/DefaultLayout';
 import FirebaseAuthProvider from './components/auth/FirebaseAuthProvider';
-import { firebaseAuth } from './config/constants';
+import { firebaseAuth } from './constants/firebaseConfig';
 import SpecimenDetailPage from './components/detail/SpecimenDetailPage';
 import Users from './components/users/Users';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
+import Home from './components/home/Home';
+import * as routes from './constants/routes';
+import ScrollToTop from './components/ScrollToTop';
 
 const customHistory = createBrowserHistory();
 
@@ -30,11 +33,12 @@ const Root = () => (
     <FirebaseAuthProvider firebaseAuth={firebaseAuth}>
       <MuiThemeProvider theme={theme}>
         <Router history={customHistory}>
-          <div>
+          <ScrollToTop>
             <Route path="/specimen/:id" component={SpecimenDetailPage} />
-            <DefaultLayout exact path="/" component={App} title="Master" />
-            <DefaultLayout path="/users" component={Users} title="Users" />
-          </div>
+            <DefaultLayout path={routes.MASTER} component={App} title="Master" />
+            <DefaultLayout path={routes.USERS} component={Users} title="Users" />
+            <DefaultLayout exact path={routes.HOME} component={Home} title="Users" />
+          </ScrollToTop>
         </Router>
       </MuiThemeProvider>
     </FirebaseAuthProvider>
