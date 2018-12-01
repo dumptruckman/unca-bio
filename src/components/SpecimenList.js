@@ -1,7 +1,6 @@
 import React from 'react';
 import AccessibleReactTable from 'accessible-react-table';
 import 'react-table/react-table.css';
-import { FirestoreCollection } from 'react-firestore';
 import SpecimenDetail from './detail/SpecimenDetail';
 import LoadingBar from './shared/LoadingBar';
 import { extractScientificName } from '../util/taxonomy';
@@ -15,16 +14,30 @@ const styles = theme => ({
   },
 });
 
-const SpecimenList = ({ classes }) => (
-  <FirestoreCollection
-    path="specimens"
-    render={({ isLoading, data }) => (
+const DEFAULT_PAGE_SIZE = 20;
+
+class SpecimenList extends React.Component {
+  state = {
+    pageSize: DEFAULT_PAGE_SIZE,
+  };
+
+  onPageSizeChange = pageSize => {
+    this.setState({ pageSize: pageSize });
+  };
+
+  render() {
+    const { classes, isLoading, data } = this.props;
+    const { pageSize } = this.state;
+    return (
       <React.Fragment>
         <LoadingBar isLoading={isLoading} />
         <AccessibleReactTable
           data={data}
           filterable={true}
           loading={isLoading}
+          showPagination={data.length > DEFAULT_PAGE_SIZE}
+          pageSize={Math.min(data.length, pageSize)}
+          onPageSizeChange={this.onPageSizeChange}
           defaultFilterMethod={(filter, row) => {
             const id = filter.pivotId || filter.id;
             return row[id] !== undefined
@@ -84,8 +97,8 @@ const SpecimenList = ({ classes }) => (
           ]}
         />
       </React.Fragment>
-    )}
-  />
-);
+    );
+  }
+}
 
 export default withStyles(styles)(SpecimenList);

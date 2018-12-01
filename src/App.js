@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import SpecimenList from './components/SpecimenList';
+import SpecimenList from './components/SpecimenListDBWrapper';
 
 class App extends Component {
   state = {

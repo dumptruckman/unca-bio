@@ -20,6 +20,7 @@ import Home from './components/home/Home';
 import * as routes from './constants/routes';
 import ScrollToTop from './components/ScrollToTop';
 import SpecimenListPage from './components/SpecimenListPage';
+import Import from './components/import/Import';
 
 const customHistory = createBrowserHistory();
 
@@ -38,7 +39,8 @@ const Root = () => (
             <Route path="/specimen/:id" component={SpecimenDetailPage} />
             <DefaultLayout path={routes.MASTER} component={SpecimenListPage} title="Master" />
             <DefaultLayout path={routes.USERS} component={Users} title="Users" />
-            <DefaultLayout exact path={routes.HOME} component={Home} title="Users" />
+            <DefaultLayout path={routes.IMPORT} component={Import} title="Import" />
+            <DefaultLayout exact path={routes.HOME} component={Home} title="Home" />
           </ScrollToTop>
         </Router>
       </MuiThemeProvider>

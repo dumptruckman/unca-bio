@@ -1,6 +1,6 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import SpecimenList from './SpecimenList';
+import SpecimenList from './SpecimenListDBWrapper';
 import Paper from '@material-ui/core/Paper';
 
 const styles = theme => ({
