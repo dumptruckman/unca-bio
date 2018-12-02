@@ -19,8 +19,8 @@ import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 import Home from './components/home/Home';
 import * as routes from './constants/routes';
 import ScrollToTop from './components/ScrollToTop';
-import SpecimenListPage from './components/SpecimenListPage';
-import Import from './components/import/Import';
+import Import from './components/Import';
+import SpecimenListDBWrapper from './components/SpecimenListDBWrapper';
 
 const customHistory = createBrowserHistory();
 
@@ -36,10 +36,16 @@ const Root = () => (
       <MuiThemeProvider theme={theme}>
         <Router history={customHistory}>
           <ScrollToTop>
-            <Route path="/specimen/:id" component={SpecimenDetailPage} />
-            <DefaultLayout path={routes.MASTER} component={SpecimenListPage} title="Master" />
-            <DefaultLayout path={routes.USERS} component={Users} title="Users" />
-            <DefaultLayout path={routes.IMPORT} component={Import} title="Import" />
+            <DefaultLayout wrap path={routes.SPECIMEN_DETAIL} component={SpecimenDetailPage} />
+            <DefaultLayout
+              wrap
+              exact
+              path={routes.MASTER}
+              component={SpecimenListDBWrapper}
+              title="Browse Specimens"
+            />
+            <DefaultLayout wrap exact path={routes.USERS} component={Users} title="Users" />
+            <DefaultLayout wrap exact path={routes.IMPORT} component={Import} title="Import" />
             <DefaultLayout exact path={routes.HOME} component={Home} title="Home" />
           </ScrollToTop>
         </Router>

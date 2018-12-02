@@ -10,6 +10,7 @@ import Drawer from '@material-ui/core/Drawer';
 import Navigation from './navigation/Navigation';
 import LoginButton from './auth/LoginButton';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import PaperWrapper from './shared/PaperWrapper';
 
 const styles = {
   root: {
@@ -36,7 +37,7 @@ class DefaultLayout extends React.Component {
   };
 
   render() {
-    const { component: Component, title, classes, ...rest } = this.props;
+    const { component: Component, title, classes, wrap, ...rest } = this.props;
 
     return (
       <Route
@@ -60,7 +61,15 @@ class DefaultLayout extends React.Component {
                 <LoginButton />
               </Toolbar>
             </AppBar>
-            <Component {...matchProps} />
+            <main>
+              {wrap ? (
+                <PaperWrapper>
+                  <Component {...matchProps} />
+                </PaperWrapper>
+              ) : (
+                <Component {...matchProps} />
+              )}
+            </main>
             <Drawer open={this.state.drawerOpen} onClose={this.toggleDrawer}>
               <div
                 tabIndex={0}

@@ -55,7 +55,7 @@ const styles = theme => ({
 });
 
 const Home = ({ classes, auth }) => (
-  <main className={classes.layout}>
+  <div className={classes.layout}>
     <Paper className={classes.titleBlock}>
       <Typography className={classes.titleText} variant="h1" color="inherit">
         UNCA Biology Specimen Catalog
@@ -72,7 +72,7 @@ const Home = ({ classes, auth }) => (
       <HomeCard title="Advanced Search" icon={SearchIcon} image={searchImage} />
       {auth.isContributor && <HomeCard title="Add Specimens" icon={AddIcon} image={addImage} />}
     </Grid>
-  </main>
+  </div>
 );
 
 export default withAuth(withStyles(styles)(Home));

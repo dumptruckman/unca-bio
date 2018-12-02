@@ -1,16 +1,16 @@
 import React from 'react';
 import Input from '@material-ui/core/Input';
 import Button from '@material-ui/core/Button';
-import SpecimenList from '../SpecimenList';
-import { withAuth } from '../auth/withAuth';
-import NotAuthorized from '../shared/NotAuthorized';
-import LoadingBar from '../shared/LoadingBar';
+import SpecimenList from './SpecimenList';
+import { withAuth } from './auth/withAuth';
+import NotAuthorized from './shared/NotAuthorized';
+import LoadingBar from './shared/LoadingBar';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import { withFirestore } from 'react-firestore';
-import { addFullTaxonomy } from '../../util/gbif';
-import { loadSpecimens } from '../../util/csvToSpecimen';
+import { addFullTaxonomy } from '../util/gbif';
+import { loadSpecimens } from '../util/csvToSpecimen';
 
 const styles = theme => ({
   confirmation: {

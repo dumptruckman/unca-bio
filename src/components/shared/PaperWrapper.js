@@ -1,6 +1,5 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import SpecimenList from './SpecimenListDBWrapper';
 import Paper from '@material-ui/core/Paper';
 
 const styles = theme => ({
@@ -18,12 +17,8 @@ const styles = theme => ({
   },
 });
 
-const SpecimenListPage = ({ classes }) => (
-  <main className={classes.layout}>
-    <Paper>
-      <SpecimenList />
-    </Paper>
-  </main>
+const PaperWrapper = ({ classes, children }) => (
+  <Paper className={classes.layout}>{children}</Paper>
 );
 
-export default withStyles(styles)(SpecimenListPage);
+export default withStyles(styles)(PaperWrapper);
