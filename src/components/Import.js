@@ -54,7 +54,7 @@ class Import extends React.Component {
     existing: null,
   };
 
-  findExisting = specimenData => {
+  findExisting = async specimenData => {
     const { firestore } = this.props;
 
     return Promise.all(
@@ -83,32 +83,29 @@ class Import extends React.Component {
       const specimenData = loadSpecimens(content);
 
       Promise.all(specimenData.map(addFullTaxonomy))
-        .then(specimenData => {
+        .then(async specimenData => {
           const duplicates = findDuplicates(specimenData);
 
-          this.findExisting(specimenData)
-            .then(docs => {
-              const existing = docs.filter(d => d.exists);
-              this.setState({
-                isImporting: false,
-                specimenData,
-                duplicates: duplicates.size > 0 ? Array.from(duplicates) : null,
-                existing: existing.length > 0 ? existing : null,
-              });
-            })
-            .catch(error => {
-              this.setState({
-                isImporting: false,
-                specimenData,
-                duplicates: duplicates.size > 0 ? Array.from(duplicates) : null,
-              });
-              alert(error);
+          try {
+            const docs = await this.findExisting(specimenData);
+            const existing = docs.filter(d => d.exists);
+            this.setState({ existing: existing.length > 0 ? existing : null });
+          } catch (e) {
+            console.log(e);
+            alert(e);
+          } finally {
+            this.setState({
+              isImporting: false,
+              specimenData,
+              duplicates: duplicates.size > 0 ? Array.from(duplicates) : null,
             });
+          }
         })
         .catch(error => {
           this.setState({
             isImporting: false,
           });
+          console.log(error);
           alert(error);
         });
     };
@@ -123,65 +120,44 @@ class Import extends React.Component {
 
     auth
       .doReauthenticate()
-      .then(() => {
+      .then(async () => {
         const specimensCollection = firestore.collection('specimens');
-        const batches = [];
+        // Max batch size is 500
         for (let i = 0; i < specimenData.length; i += 500) {
           const batch = firestore.batch();
+          // batch i through i + 500
           specimenData.slice(i, i + 500).forEach(specimen => {
             const specimenRef = specimensCollection.doc(specimen.catalogNumber);
             batch.set(specimenRef, specimen);
           });
-          batches.push(
-            new Promise((resolve, reject) =>
-              batch
-                .commit()
-                .then(() => {
-                  if (specimenData.length > 500) {
-                    alert(
-                      `Specimens ${i + 1} to ${Math.min(
-                        i + 500,
-                        specimenData.length
-                      )} have been imported successfully.`
-                    );
-                  }
-                  resolve();
-                })
-                .catch(error => {
-                  if (specimenData.length > 500) {
-                    reject(
-                      `Specimens ${i + 1} to ${Math.min(
-                        i + 500,
-                        specimenData.length
-                      )} have failed to import. Cause: ${error}`
-                    );
-                  } else {
-                    reject(error);
-                  }
-                })
-            )
-          );
-        }
-
-        Promise.all(batches)
-          .then(() => {
+          const range = Math.min(i + 500, specimenData.length);
+          try {
+            await batch.commit();
+            alert(`Specimens ${i + 1} to ${range} have been imported successfully.`);
+          } catch (e) {
+            console.log(
+              `Specimens ${i + 1} to ${range} have failed to import. Import will stop`,
+              e
+            );
+            alert(
+              `Specimens ${i + 1} to ${range} have failed to import. Import will stop. Cause: ${e}`
+            );
+            // return to stop further database batch write attempts
+            return;
+          } finally {
             this.setState({
-              filePath: null,
-              file: null,
               isImporting: false,
               duplicates: null,
               existing: null,
               specimenData: null,
             });
-            alert('Import successful! You will be redirected to specimen browser.');
-            history.push(routes.MASTER);
-          })
-          .catch(error => {
-            this.setState({ isImporting: false, specimenData: null });
-            alert(`${error}`);
-          });
+          }
+        }
+        alert('Import successful! You will be redirected to specimen browser.');
+        history.push(routes.MASTER);
       })
       .catch(error => {
+        // Reauthentication error
         console.log(error);
         this.setState({ isImporting: false });
         alert(`You cannot import the data. Reason: ${error}`);
