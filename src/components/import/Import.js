@@ -1,7 +1,6 @@
 import React from 'react';
 import Input from '@material-ui/core/Input';
 import Button from '@material-ui/core/Button';
-import firebase from 'firebase';
 import SpecimenList from '../SpecimenList';
 import { withAuth } from '../auth/withAuth';
 import NotAuthorized from '../shared/NotAuthorized';
@@ -10,6 +9,8 @@ import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import { withFirestore } from 'react-firestore';
+import { addFullTaxonomy } from '../../util/gbif';
+import { loadSpecimens } from '../../util/csvToSpecimen';
 
 const styles = theme => ({
   confirmation: {
@@ -20,6 +21,21 @@ const styles = theme => ({
     paddingBottom: '1em',
   },
 });
+
+const findDuplicates = specimenData => {
+  const sortedSpecimens = specimenData.slice().sort((a, b) => a.catalogNumber - b.catalogNumber);
+
+  // Identify duplicates
+  const duplicates = new Set();
+  for (let i = 0; i < sortedSpecimens.length - 1; i++) {
+    if (sortedSpecimens[i + 1].catalogNumber === sortedSpecimens[i].catalogNumber) {
+      duplicates.add(sortedSpecimens[i]);
+      duplicates.add(sortedSpecimens[i + 1]);
+    }
+  }
+
+  return duplicates;
+};
 
 class Import extends React.Component {
   state = {
@@ -42,72 +58,24 @@ class Import extends React.Component {
     const reader = new FileReader();
     reader.onload = e => {
       const content = e.target.result;
-      const lines = content.split(/\r?\n/g);
+      const specimenData = loadSpecimens(content);
 
-      if (lines.length < 1) {
-        this.setState({
-          isImporting: false,
-          error: 'data file is blank',
+      Promise.all(specimenData.map(addFullTaxonomy))
+        .then(specimenData => {
+          const duplicates = findDuplicates(specimenData);
+
+          this.setState({
+            isImporting: false,
+            specimenData,
+            duplicates: duplicates.size > 0 ? Array.from(duplicates) : null,
+          });
+        })
+        .catch(error => {
+          this.setState({
+            isImporting: false,
+          });
+          alert(error);
         });
-        return;
-      }
-
-      const header = lines[0];
-
-      if (lines.length < 2) {
-        this.setState({
-          isImporting: false,
-          error: 'no rows of data present',
-        });
-      }
-
-      const data = lines.slice(1);
-      const specimenData = data
-        .filter(line => line) // filter out empty lines
-        .map(line =>
-          line
-            .match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g)
-            .map(datum => datum.replace(/"([^"]+(?="))"/g, '$1'))
-        )
-        .map(specimen => ({
-          catalogNumber: specimen[1],
-          collectors: specimen[5] ? specimen[5].split(',').map(x => x.trim()) : undefined,
-          identification: {
-            fullTaxonomy: specimen[0],
-          },
-          attributes: {
-            sex: specimen[2] || undefined,
-          },
-          locality: {
-            collectingDateFrom: specimen[3]
-              ? firebase.firestore.Timestamp.fromDate(new Date(specimen[3]))
-              : undefined,
-            collectingDateTo: specimen[3]
-              ? firebase.firestore.Timestamp.fromDate(new Date(specimen[3]))
-              : undefined,
-            specificLocality: specimen[4] || undefined,
-          },
-          preparers: specimen[6] ? specimen[6].split(',').map(x => x.trim()) : undefined,
-          comments: specimen[9] || undefined,
-        }));
-
-      // Identify duplicates
-      const duplicates = new Set();
-      const sortedSpecimens = specimenData
-        .slice()
-        .sort((a, b) => a.catalogNumber - b.catalogNumber);
-      for (let i = 0; i < sortedSpecimens.length - 1; i++) {
-        if (sortedSpecimens[i + 1].catalogNumber === sortedSpecimens[i].catalogNumber) {
-          duplicates.add(sortedSpecimens[i]);
-          duplicates.add(sortedSpecimens[i + 1]);
-        }
-      }
-
-      this.setState({
-        isImporting: false,
-        specimenData,
-        duplicates: duplicates.size > 0 ? Array.from(duplicates) : null,
-      });
     };
     reader.readAsText(file);
   };

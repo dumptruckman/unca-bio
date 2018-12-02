@@ -14,19 +14,14 @@ const styles = theme => ({
 const Identification = ({
   classes,
   data: {
-    identification: { author, authorDate, fullTaxonomy, commonName, identifiedBy, identifiedDate },
+    identification: { authorship, fullTaxonomy, commonName, identifiedBy, identifiedDate },
   },
 }) => (
   <React.Fragment>
     <div>
       <Typography variant="h6">
         <i>{extractScientificName(fullTaxonomy)}</i>
-        {(author || authorDate) &&
-          ' (' +
-            (author && author) +
-            (author && authorDate && ', ') +
-            (authorDate && authorDate.toDate().getFullYear()) +
-            ')'}
+        {authorship && authorship}
       </Typography>
     </div>
     <div>
