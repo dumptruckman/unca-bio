@@ -11,7 +11,9 @@ const styles = theme => ({
 
 const DetailDatumLabel = ({ classes, children, ...extraProps }) => (
   <TableCell className={classes.noBorder} variant="head" padding="none" {...extraProps}>
-    <Typography align="right">{children}</Typography>
+    <Typography noWrap align="right">
+      {children}
+    </Typography>
   </TableCell>
 );
 
