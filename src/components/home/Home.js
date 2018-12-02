@@ -4,12 +4,14 @@ import titleImage from '../../images/specimenlarge.png';
 import browseImage from '../../images/collection.jpg';
 import searchImage from '../../images/searching.jpg';
 import addImage from '../../images/adding.jpg';
+import importImage from '../../images/import.jpg';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import SearchIcon from '@material-ui/icons/Search';
 import ViewListIcon from '@material-ui/icons/ViewList';
 import AddIcon from '@material-ui/icons/Add';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import * as routes from '../../constants/routes';
 import HomeCard from './HomeCard';
 import { withAuth } from '../auth/withAuth';
@@ -71,6 +73,14 @@ const Home = ({ classes, auth }) => (
       />
       <HomeCard title="Advanced Search" icon={SearchIcon} image={searchImage} />
       {auth.isContributor && <HomeCard title="Add Specimens" icon={AddIcon} image={addImage} />}
+      {auth.isAdmin && (
+        <HomeCard
+          title="Import Specimens"
+          icon={CloudUploadIcon}
+          image={importImage}
+          route={routes.IMPORT}
+        />
+      )}
     </Grid>
   </div>
 );
