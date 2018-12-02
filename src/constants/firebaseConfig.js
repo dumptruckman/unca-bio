@@ -12,8 +12,19 @@ const config = {
 firebase.initializeApp(config);
 
 const firestore = firebase.firestore();
+
 const settings = { /* your settings... */ timestampsInSnapshots: true };
 firestore.settings(settings);
+
+firestore.enablePersistence().catch(function(err) {
+  if (err.code === 'failed-precondition') {
+    console.log('Cannot use persistence in multiple tabs.', err);
+    firebase.firestore().disableNetwork();
+  } else if (err.code === 'unimplemented') {
+    console.log('Browser does not support persistence.', err);
+    firebase.firestore().disableNetwork();
+  }
+});
 
 export const googleProvider = new firebase.auth.GoogleAuthProvider();
 export const firebaseAuth = firebase.auth();
