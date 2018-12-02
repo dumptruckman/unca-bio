@@ -70,10 +70,10 @@ export const loadSpecimens = fileContents => {
           },
           locality: {
             collectingDateFrom: date
-              ? firebase.firestore.Timestamp.fromDate(new Date(date))
+              ? firebase.firestore.Timestamp.fromDate(new Date(date + ' EST'))
               : undefined,
             collectingDateTo: date
-              ? firebase.firestore.Timestamp.fromDate(new Date(date))
+              ? firebase.firestore.Timestamp.fromDate(new Date(date + ' EST'))
               : undefined,
             specificLocality,
           },

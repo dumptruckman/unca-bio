@@ -12,7 +12,7 @@ const styles = {
 
 const NotAuthorized = ({ classes }) => (
   <div className={classes.root}>
-    <Typography component="h1" variant="h1" color="secondary">
+    <Typography component="h3" variant="h3" color="secondary">
       You are not authorized to view this page.
     </Typography>
   </div>

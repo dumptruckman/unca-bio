@@ -20,6 +20,11 @@ const styles = theme => ({
     paddingTop: '1em',
     paddingBottom: '1em',
   },
+  noFileSupport: {
+    width: '100%',
+    textAlign: 'center',
+    marginTop: '2em',
+  },
 });
 
 const findDuplicates = specimenData => {
@@ -97,20 +102,34 @@ class Import extends React.Component {
       auth: { isAdmin, isLoading },
       classes,
     } = this.props;
-    const { isImporting, specimenData, duplicates } = this.state;
+    const { isImporting, specimenData, duplicates, file } = this.state;
+    console.log(file);
 
-    if (isLoading) {
+    if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
       return (
-        <main>
-          <LoadingBar isLoading={isLoading} />
-        </main>
+        <div className={classes.noFileSupport}>
+          <Typography variant="h3" color="secondary">
+            Your browser does not support this feature.
+          </Typography>
+        </div>
       );
+    } else if (isLoading) {
+      return <LoadingBar isLoading={isLoading} />;
     } else if (isAdmin) {
       return (
-        <main>
+        <React.Fragment>
           {isImporting && <LoadingBar isLoading={isLoading} />}
-          <Input type="file" onChange={this.handleChange} disabled={isImporting} />
-          <Button color="primary" onClick={this.beginImport} disabled={isImporting}>
+          <Input
+            type="file"
+            onChange={this.handleChange}
+            disabled={isImporting}
+            inputProps={{ accept: '.csv' }}
+          />
+          <Button
+            color="primary"
+            onClick={this.beginImport}
+            disabled={isImporting || !(file instanceof Blob)}
+          >
             Import
           </Button>
           {specimenData && (
@@ -145,7 +164,7 @@ class Import extends React.Component {
               </div>
             </React.Fragment>
           )}
-        </main>
+        </React.Fragment>
       );
     } else {
       return (
