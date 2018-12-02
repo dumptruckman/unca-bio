@@ -20,9 +20,11 @@ firestore.enablePersistence().catch(function(err) {
   if (err.code === 'failed-precondition') {
     console.log('Cannot use persistence in multiple tabs.', err);
     firebase.firestore().disableNetwork();
+    alert('You cannot use this application in multiple tabs. Please close other tabs to continue.');
   } else if (err.code === 'unimplemented') {
     console.log('Browser does not support persistence.', err);
     firebase.firestore().disableNetwork();
+    alert('Your browser is not supported by this application. We are sorry for the inconvenience.');
   }
 });
 
