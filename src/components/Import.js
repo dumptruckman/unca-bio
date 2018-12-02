@@ -11,6 +11,8 @@ import { withStyles } from '@material-ui/core/styles';
 import { withFirestore } from 'react-firestore';
 import { addFullTaxonomy } from '../util/gbif';
 import { loadSpecimens } from '../util/csvToSpecimen';
+import * as routes from '../constants/routes';
+import { withRouter } from 'react-router';
 
 const styles = theme => ({
   confirmation: {
@@ -48,6 +50,21 @@ class Import extends React.Component {
     file: null,
     isImporting: false,
     duplicates: null,
+    specimenData: null,
+    existing: null,
+  };
+
+  findExisting = specimenData => {
+    const { firestore } = this.props;
+
+    return Promise.all(
+      specimenData.map(specimen =>
+        firestore
+          .collection('specimens')
+          .doc(specimen.catalogNumber)
+          .get()
+      )
+    );
   };
 
   handleChange = event => {
@@ -69,11 +86,24 @@ class Import extends React.Component {
         .then(specimenData => {
           const duplicates = findDuplicates(specimenData);
 
-          this.setState({
-            isImporting: false,
-            specimenData,
-            duplicates: duplicates.size > 0 ? Array.from(duplicates) : null,
-          });
+          this.findExisting(specimenData)
+            .then(docs => {
+              const existing = docs.filter(d => d.exists);
+              this.setState({
+                isImporting: false,
+                specimenData,
+                duplicates: duplicates.size > 0 ? Array.from(duplicates) : null,
+                existing: existing.length > 0 ? existing : null,
+              });
+            })
+            .catch(error => {
+              this.setState({
+                isImporting: false,
+                specimenData,
+                duplicates: duplicates.size > 0 ? Array.from(duplicates) : null,
+              });
+              alert(error);
+            });
         })
         .catch(error => {
           this.setState({
@@ -88,13 +118,74 @@ class Import extends React.Component {
   completeImport = () => {
     this.setState({ isImporting: true });
 
-    const { firestore } = this.props;
+    const { firestore, auth, history } = this.props;
     const { specimenData } = this.state;
 
-    const batch = firestore.batch();
-    const specimens = firestore.collection('specimens');
+    auth
+      .doReauthenticate()
+      .then(() => {
+        const specimensCollection = firestore.collection('specimens');
+        const batches = [];
+        for (let i = 0; i < specimenData.length; i += 500) {
+          const batch = firestore.batch();
+          specimenData.slice(i, i + 500).forEach(specimen => {
+            const specimenRef = specimensCollection.doc(specimen.catalogNumber);
+            batch.set(specimenRef, specimen);
+          });
+          batches.push(
+            new Promise((resolve, reject) =>
+              batch
+                .commit()
+                .then(() => {
+                  if (specimenData.length > 500) {
+                    alert(
+                      `Specimens ${i + 1} to ${Math.min(
+                        i + 500,
+                        specimenData.length
+                      )} have been imported successfully.`
+                    );
+                  }
+                  resolve();
+                })
+                .catch(error => {
+                  if (specimenData.length > 500) {
+                    reject(
+                      `Specimens ${i + 1} to ${Math.min(
+                        i + 500,
+                        specimenData.length
+                      )} have failed to import. Cause: ${error}`
+                    );
+                  } else {
+                    reject(error);
+                  }
+                })
+            )
+          );
+        }
 
-    specimenData.map(specimen => {});
+        Promise.all(batches)
+          .then(() => {
+            this.setState({
+              filePath: null,
+              file: null,
+              isImporting: false,
+              duplicates: null,
+              existing: null,
+              specimenData: null,
+            });
+            alert('Import successful! You will be redirected to specimen browser.');
+            history.push(routes.MASTER);
+          })
+          .catch(error => {
+            this.setState({ isImporting: false, specimenData: null });
+            alert(`${error}`);
+          });
+      })
+      .catch(error => {
+        console.log(error);
+        this.setState({ isImporting: false });
+        alert(`You cannot import the data. Reason: ${error}`);
+      });
   };
 
   render() {
@@ -102,8 +193,7 @@ class Import extends React.Component {
       auth: { isAdmin, isLoading },
       classes,
     } = this.props;
-    const { isImporting, specimenData, duplicates, file } = this.state;
-    console.log(file);
+    const { isImporting, specimenData, duplicates, file, existing } = this.state;
 
     if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
       return (
@@ -118,7 +208,7 @@ class Import extends React.Component {
     } else if (isAdmin) {
       return (
         <React.Fragment>
-          {isImporting && <LoadingBar isLoading={isLoading} />}
+          <LoadingBar isLoading={isImporting} />
           <Input
             type="file"
             onChange={this.handleChange}
@@ -143,6 +233,18 @@ class Import extends React.Component {
                       should probably be corrected before importing.
                     </Typography>
                     <SpecimenList isLoading={isImporting} data={duplicates} />
+                  </div>
+                </React.Fragment>
+              )}
+
+              {existing && (
+                <React.Fragment>
+                  <Divider />
+                  <div className={classes.table}>
+                    <Typography variant="h5" color="secondary">
+                      The following catalog entries will be overwritten if you proceed!
+                    </Typography>
+                    <SpecimenList isLoading={isImporting} data={existing.map(d => d.data())} />
                   </div>
                 </React.Fragment>
               )}
@@ -176,4 +278,4 @@ class Import extends React.Component {
   }
 }
 
-export default withFirestore(withAuth(withStyles(styles)(Import)));
+export default withRouter(withFirestore(withAuth(withStyles(styles)(Import))));

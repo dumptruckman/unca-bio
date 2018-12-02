@@ -58,28 +58,33 @@ export const loadSpecimens = fileContents => {
           drawer,
           comments,
           identifiedBy,
-        ]) => ({
-          catalogNumber,
-          collectors: collectors ? collectors.split(',').map(x => x.trim()) : undefined,
-          identification: {
-            fullTaxonomy,
-            identifiedBy,
-          },
-          attributes: {
-            sex,
-          },
-          locality: {
-            collectingDateFrom: date
-              ? firebase.firestore.Timestamp.fromDate(new Date(date + ' EST'))
-              : undefined,
-            collectingDateTo: date
-              ? firebase.firestore.Timestamp.fromDate(new Date(date + ' EST'))
-              : undefined,
-            specificLocality,
-          },
-          preparers: preparers ? preparers.split(',').map(x => x.trim()) : undefined,
-          comments,
-        })
+        ]) => {
+          const specimen = { catalogNumber };
+          if (collectors) specimen.collectors = collectors.split(',').map(x => x.trim());
+          if (fullTaxonomy || identifiedBy) {
+            const identification = {};
+            if (fullTaxonomy) identification.fullTaxonomy = fullTaxonomy;
+            if (identifiedBy) identification.identifiedBy = identifiedBy;
+            specimen.identification = identification;
+          }
+          if (sex) specimen.attributes = { sex };
+          if (date || specificLocality) {
+            const locality = {};
+            if (date) {
+              locality.collectingDateFrom = firebase.firestore.Timestamp.fromDate(
+                new Date(date + ' EST')
+              );
+              locality.collectingDateTo = firebase.firestore.Timestamp.fromDate(
+                new Date(date + ' EST')
+              );
+            }
+            if (specificLocality) locality.specificLocality = specificLocality;
+            specimen.locality = locality;
+          }
+          if (preparers) specimen.preparers = preparers.split(',').map(x => x.trim());
+          if (comments) specimen.comments = comments;
+          return specimen;
+        }
       )
   );
 };

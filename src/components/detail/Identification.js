@@ -21,7 +21,7 @@ const Identification = ({
     <div>
       <Typography variant="h6">
         <i>{extractScientificName(fullTaxonomy)}</i>
-        {authorship && authorship}
+        {authorship && ` (${authorship})`}
       </Typography>
     </div>
     <div>

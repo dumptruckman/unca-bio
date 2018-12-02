@@ -18,7 +18,6 @@ export const getGbifSpecimen = taxonomy =>
 
 export const addFullTaxonomy = specimen =>
   new Promise((resolve, reject) => {
-    console.log(specimen);
     const { identification } = specimen;
     const { fullTaxonomy: taxonomy } = identification;
     getGbifSpecimen(taxonomy)
@@ -27,15 +26,18 @@ export const addFullTaxonomy = specimen =>
           const fullTaxonomy = `${s.kingdom} ${s.phylum} ${s.class} ${s.order} ${
             s.family
           } ${extractScientificName(taxonomy)}`;
-          resolve({
+          const newSpecimen = {
             ...specimen,
             identification: {
               ...identification,
               fullTaxonomy,
-              commonName: s.vernacularName,
-              authorship: s.authorship,
             },
-          });
+          };
+          if (s.vernacularName) newSpecimen.identification.commonName = s.vernacularName;
+          if (s.authorship) {
+            newSpecimen.identification.authorship = s.authorship.trim().replace(/\((.*?)\)/g, '$1');
+          }
+          resolve(newSpecimen);
         } else {
           resolve(specimen);
         }
