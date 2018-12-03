@@ -17,38 +17,36 @@ import Switch from '@material-ui/core/Switch';
 import Tooltip from '@material-ui/core/Tooltip';
 import TextField from '@material-ui/core/TextField';
 
-const styles = theme => {
-  return {
-    exportCheckbox: {
-      width: '100%',
-    },
-    exportBar: {
-      backgroundColor: theme.palette.grey[800],
-      color: theme.palette.white,
-      top: 'auto',
-      bottom: 0,
-    },
-    hidden: {
-      display: 'none',
-    },
-    exportText: {
-      fontSize: '1.3em',
-      width: '100%',
-    },
-    avatar: {
-      marginRight: '.7em',
-    },
-    avatarColor: {
-      backgroundColor: theme.palette.secondary.light,
-    },
-    bottomMargin: {
-      marginBottom: '5em',
-    },
-    textField: {
-      width: '100%',
-    },
-  };
-};
+const styles = theme => ({
+  exportCheckbox: {
+    width: '100%',
+  },
+  exportBar: {
+    backgroundColor: theme.palette.grey[800],
+    color: theme.palette.white,
+    top: 'auto',
+    bottom: 0,
+  },
+  hidden: {
+    display: 'none',
+  },
+  exportText: {
+    fontSize: '1.3em',
+    width: '100%',
+  },
+  avatar: {
+    marginRight: '.7em',
+  },
+  avatarColor: {
+    backgroundColor: theme.palette.secondary.light,
+  },
+  bottomMargin: {
+    marginBottom: '5em',
+  },
+  textField: {
+    width: '100%',
+  },
+});
 
 const DEFAULT_PAGE_SIZE = 20;
 
@@ -164,14 +162,14 @@ class SpecimenList extends React.Component {
         Placeholder: 'Collection date...',
         Filter: this.customFilter,
       },
-      {
-        Header: 'Voucher Type',
-        accessor: 'voucherType',
-        maxWidth: 200,
-        minWidth: 80,
-        Placeholder: 'Voucher type...',
-        Filter: this.customFilter,
-      },
+      // {
+      //   Header: 'Voucher Type',
+      //   accessor: 'voucherType',
+      //   maxWidth: 200,
+      //   minWidth: 80,
+      //   Placeholder: 'Voucher type...',
+      //   Filter: this.customFilter,
+      // },
     ];
     if (this.props.noExport) {
       return [...normalColumns];
