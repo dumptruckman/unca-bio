@@ -15,9 +15,9 @@ import classnames from 'classnames';
 import { downloadCsv, specimensToCsv } from '../util/specimenCsv';
 import Switch from '@material-ui/core/Switch';
 import Tooltip from '@material-ui/core/Tooltip';
+import TextField from '@material-ui/core/TextField';
 
 const styles = theme => {
-  console.log(theme.palette);
   return {
     exportCheckbox: {
       width: '100%',
@@ -44,6 +44,9 @@ const styles = theme => {
     bottomMargin: {
       marginBottom: '5em',
     },
+    textField: {
+      width: '100%',
+    },
   };
 };
 
@@ -54,6 +57,20 @@ class SpecimenList extends React.Component {
     pageSize: DEFAULT_PAGE_SIZE,
     toExport: new Set(),
     expanded: {},
+  };
+
+  customFilter = ({ filter, onChange, column }) => {
+    const { classes } = this.props;
+    return (
+      <TextField
+        type="text"
+        className={classnames(classes.textField)}
+        placeholder={column.Placeholder}
+        value={filter ? filter.value : ''}
+        onChange={event => onChange(event.target.value)}
+        margin="dense"
+      />
+    );
   };
 
   onPageSizeChange = pageSize => {
@@ -120,17 +137,23 @@ class SpecimenList extends React.Component {
         accessor: 'catalogNumber',
         maxWidth: 150,
         minWidth: 80,
+        Placeholder: 'Catalog #...',
+        Filter: this.customFilter,
       },
       {
         Header: 'Taxonomy',
         accessor: 'identification.fullTaxonomy',
         Cell: ({ value }) => <i>{extractScientificName(value)}</i>,
         minWidth: 200,
+        Placeholder: 'Full taxonomy...',
+        Filter: this.customFilter,
       },
       {
         Header: 'Locality',
         accessor: 'locality.specificLocality',
         minWidth: 150,
+        Placeholder: 'Locality...',
+        Filter: this.customFilter,
       },
       {
         Header: 'Collection Date',
@@ -138,12 +161,16 @@ class SpecimenList extends React.Component {
         maxWidth: 200,
         minWidth: 85,
         Cell: ({ value }) => value && value.toDate().getFullYear(),
+        Placeholder: 'Collection date...',
+        Filter: this.customFilter,
       },
       {
         Header: 'Voucher Type',
         accessor: 'voucherType',
         maxWidth: 200,
         minWidth: 80,
+        Placeholder: 'Voucher type...',
+        Filter: this.customFilter,
       },
     ];
     if (this.props.noExport) {
@@ -175,7 +202,7 @@ class SpecimenList extends React.Component {
               ? String(row[id])
                   .toLowerCase()
                   .includes(filter.value.toLowerCase())
-              : true;
+              : false;
           }}
           getTheadThProps={() => ({
             style: {
