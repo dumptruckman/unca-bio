@@ -12,6 +12,9 @@ import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import classnames from 'classnames';
+import { downloadCsv, specimensToCsv } from '../util/specimenCsv';
+import Switch from '@material-ui/core/Switch';
+import Tooltip from '@material-ui/core/Tooltip';
 
 const styles = theme => {
   console.log(theme.palette);
@@ -37,9 +40,6 @@ const styles = theme => {
     },
     avatarColor: {
       backgroundColor: theme.palette.secondary.light,
-    },
-    tbody: {
-      backgroundColor: theme.palette.background.default,
     },
     bottomMargin: {
       marginBottom: '5em',
@@ -76,7 +76,7 @@ class SpecimenList extends React.Component {
     }
   };
 
-  buildColumns = () => {
+  buildColumns = data => {
     const { classes } = this.props;
     const { toExport } = this.state;
     const exportColumn = [
@@ -85,7 +85,7 @@ class SpecimenList extends React.Component {
         accessor: '',
         maxWidth: 70,
         minWidth: 70,
-        filterable: false,
+        //filterable: false,
         style: {
           padding: '0px',
         },
@@ -95,6 +95,22 @@ class SpecimenList extends React.Component {
             checked={toExport.has(index)}
             onChange={(_, checked) => this.toggleExport(index, checked)}
           />
+        ),
+        Filter: () => (
+          <Tooltip title="Select All">
+            <Switch
+              value="selectAll"
+              checked={toExport.size === data.length}
+              aria-label="Select All"
+              onChange={event =>
+                this.setState({
+                  toExport: event.target.checked
+                    ? new Set([...Array(data.length).keys()])
+                    : new Set(),
+                })
+              }
+            />
+          </Tooltip>
         ),
       },
     ];
@@ -118,9 +134,10 @@ class SpecimenList extends React.Component {
       },
       {
         Header: 'Collection Date',
-        accessor: 'collectionDate',
+        accessor: 'locality.collectingDateFrom',
         maxWidth: 200,
         minWidth: 85,
+        Cell: ({ value }) => value && value.toDate().getFullYear(),
       },
       {
         Header: 'Voucher Type',
@@ -177,8 +194,15 @@ class SpecimenList extends React.Component {
               justifyContent: 'center',
             },
           })}
+          getTheadFilterThProps={() => ({
+            style: {
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+            },
+          })}
           SubComponent={({ original }) => <SpecimenDetail specimen={original} />}
-          columns={this.buildColumns()}
+          columns={this.buildColumns(data)}
         />
         {!noExport && (
           <AppBar
@@ -192,7 +216,43 @@ class SpecimenList extends React.Component {
               <Typography color="inherit" className={classes.exportText}>{`specimen${
                 toExport.size !== 1 ? 's' : ''
               } selected for export`}</Typography>
-              <Button variant="contained" color="secondary" disabled={toExport.size === 0}>
+              <Button
+                variant="contained"
+                disabled={toExport.size === 0}
+                onClick={() => {
+                  this.setState({ toExport: new Set() });
+                }}
+                style={{ marginRight: '1em' }}
+              >
+                Unselect All
+              </Button>
+              <Button
+                variant="contained"
+                color="secondary"
+                disabled={toExport.size === 0}
+                onClick={() => {
+                  const date = new Date(Date.now());
+                  downloadCsv(
+                    `SpecimenData-${date.getFullYear()}-${date
+                      .getMonth()
+                      .toString()
+                      .padStart(2, '0')}-${date
+                      .getDate()
+                      .toString()
+                      .padStart(2, '0')}-${date
+                      .getHours()
+                      .toString()
+                      .padStart(2, '0')}-${date
+                      .getMinutes()
+                      .toString()
+                      .padStart(2, '0')}-${date
+                      .getSeconds()
+                      .toString()
+                      .padStart(2, '0')}.csv`,
+                    specimensToCsv(data.filter((specimen, i) => toExport.has(i)))
+                  );
+                }}
+              >
                 Export to CSV
               </Button>
             </Toolbar>

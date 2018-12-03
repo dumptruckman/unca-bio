@@ -1,5 +1,5 @@
 const extractScientificName = fullTaxonomy => {
-  if (!fullTaxonomy) {
+  if (!fullTaxonomy || fullTaxonomy === '') {
     return fullTaxonomy;
   }
   const names = fullTaxonomy.split(' ');
