@@ -10,7 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import { withFirestore } from 'react-firestore';
 import { addFullTaxonomy } from '../util/gbif';
-import { loadSpecimens } from '../util/csvToSpecimen';
+import { loadSpecimens } from '../util/specimenCsv';
 import * as routes from '../constants/routes';
 import { withRouter } from 'react-router';
 
@@ -208,7 +208,7 @@ class Import extends React.Component {
                       The following duplicate catalog numbers were found in the import data. These
                       should probably be corrected before importing.
                     </Typography>
-                    <SpecimenList isLoading={isImporting} data={duplicates} />
+                    <SpecimenList isLoading={isImporting} data={duplicates} noExport />
                   </div>
                 </React.Fragment>
               )}
@@ -230,7 +230,7 @@ class Import extends React.Component {
                 <Typography variant="h5" color="primary">
                   The following data will be imported.
                 </Typography>
-                <SpecimenList isLoading={isImporting} data={specimenData} />
+                <SpecimenList isLoading={isImporting} data={specimenData} noExport />
               </div>
 
               <Divider />

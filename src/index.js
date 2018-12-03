@@ -28,6 +28,11 @@ const theme = createMuiTheme({
   typography: {
     useNextVariants: true,
   },
+  palette: {
+    background: {
+      dark: '#bababa',
+    },
+  },
 });
 
 const Root = () => (

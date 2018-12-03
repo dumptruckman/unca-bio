@@ -12,6 +12,7 @@ import { withStyles } from '@material-ui/core/styles';
 const styles = theme => ({
   paper: {
     padding: '5px',
+    flexGrow: 1,
   },
 });
 
