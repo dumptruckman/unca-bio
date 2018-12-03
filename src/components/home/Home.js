@@ -71,8 +71,10 @@ const Home = ({ classes, auth }) => (
         image={browseImage}
         route={routes.MASTER}
       />
-      <HomeCard title="Advanced Search" icon={SearchIcon} image={searchImage} />
-      {auth.isContributor && <HomeCard title="Add Specimens" icon={AddIcon} image={addImage} />}
+      <HomeCard disabled title="Advanced Search" icon={SearchIcon} image={searchImage} />
+      {auth.isContributor && (
+        <HomeCard disabled title="Add Specimens" icon={AddIcon} image={addImage} />
+      )}
       {auth.isAdmin && (
         <HomeCard
           title="Import Specimens"

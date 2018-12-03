@@ -8,7 +8,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import HomeIcon from '@material-ui/icons/Home';
 import ViewListIcon from '@material-ui/icons/ViewList';
-import AdminNavigation from './PrivilegedNavigation';
+import PrivilegedNavigation from './PrivilegedNavigation';
 import FirebaseAuth from '../auth/FirebaseAuth';
 import { Link } from 'react-router-dom';
 import * as routes from '../../constants/routes';
@@ -40,7 +40,7 @@ const Navigation = ({ classes }) => (
               <ListItemText primary="Browse Specimens" />
             </ListItem>
           </List>
-          <AdminNavigation />
+          <PrivilegedNavigation />
           <Divider />
           <List component="nav">
             <ListItem

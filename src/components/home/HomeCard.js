@@ -25,10 +25,10 @@ const styles = theme => ({
   },
 });
 
-const HomeCard = ({ classes, title, icon: Icon, route, image }) => (
+const HomeCard = ({ classes, title, icon: Icon, route, image, disabled }) => (
   <Grid item xs={12} md={6}>
     <Card>
-      <CardActionArea component={route ? Link : undefined} to={route}>
+      <CardActionArea disabled={disabled} component={route ? Link : undefined} to={route}>
         <CardHeader
           avatar={
             <Avatar aria-label={title} className={classes.avatar}>

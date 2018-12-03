@@ -29,12 +29,12 @@ const PrivilegedNavigation = () => (
           <div>
             <Divider />
             <List component="nav">
-              <ListItem button component={Link} to={routes.HOME}>
+              {/*<ListItem button component={Link} to={routes.HOME}>
                 <ListItemIcon>
                   <AddIcon />
                 </ListItemIcon>
                 <ListItemText primary="Add Specimens" />
-              </ListItem>
+              </ListItem>*/}
               {isAdmin && (
                 <React.Fragment>
                   <ListItem button component={Link} to={routes.IMPORT}>
