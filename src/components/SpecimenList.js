@@ -16,6 +16,7 @@ import { downloadCsv, specimensToCsv } from '../util/specimenCsv';
 import Switch from '@material-ui/core/Switch';
 import Tooltip from '@material-ui/core/Tooltip';
 import TextField from '@material-ui/core/TextField';
+import Divider from '@material-ui/core/Divider';
 
 const styles = theme => ({
   exportCheckbox: {
@@ -226,7 +227,12 @@ class SpecimenList extends React.Component {
               justifyContent: 'center',
             },
           })}
-          SubComponent={({ original }) => <SpecimenDetail specimen={original} />}
+          SubComponent={({ original }) => (
+            <div style={{ width: '100%' }}>
+              <SpecimenDetail specimen={original} />
+              <Divider variant="middle" style={{ height: '5px' }} />
+            </div>
+          )}
           columns={this.buildColumns(data)}
         />
         {!noExport && (
